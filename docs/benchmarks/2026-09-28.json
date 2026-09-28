@@ -1,0 +1,4013 @@
+{
+  "at": "2026-09-28T03:23:17.102Z",
+  "build": "release",
+  "exe": "src-tauri\\target\\release\\md-lite.exe",
+  "environment": {
+    "os": "Windows 11 Pro for Workstations",
+    "release": "10.0.26100",
+    "cpu": "AMD Ryzen 9 9950X3D 16-Core Processor          ",
+    "logicalCpus": 32,
+    "ramBytes": 33448386560,
+    "node": "v22.22.3"
+  },
+  "startup": [
+    {
+      "run": 0,
+      "priming": true,
+      "paintEstimateMs": 595,
+      "observedReadableMs": 788,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 1,
+      "priming": false,
+      "paintEstimateMs": 531.5,
+      "observedReadableMs": 552,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 2,
+      "priming": false,
+      "paintEstimateMs": 503.5,
+      "observedReadableMs": 542,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 3,
+      "priming": false,
+      "paintEstimateMs": 469.900146484375,
+      "observedReadableMs": 496,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 4,
+      "priming": false,
+      "paintEstimateMs": 468.300048828125,
+      "observedReadableMs": 498,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 5,
+      "priming": false,
+      "paintEstimateMs": 470.699951171875,
+      "observedReadableMs": 499,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 6,
+      "priming": false,
+      "paintEstimateMs": 467.099853515625,
+      "observedReadableMs": 493,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 7,
+      "priming": false,
+      "paintEstimateMs": 479.39990234375,
+      "observedReadableMs": 506,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 8,
+      "priming": false,
+      "paintEstimateMs": 510.300048828125,
+      "observedReadableMs": 543,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 9,
+      "priming": false,
+      "paintEstimateMs": 587.800048828125,
+      "observedReadableMs": 795,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 10,
+      "priming": false,
+      "paintEstimateMs": 550.900146484375,
+      "observedReadableMs": 568,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 11,
+      "priming": false,
+      "paintEstimateMs": 508.7998046875,
+      "observedReadableMs": 700,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 12,
+      "priming": false,
+      "paintEstimateMs": 524.39990234375,
+      "observedReadableMs": 552,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 13,
+      "priming": false,
+      "paintEstimateMs": 503.7998046875,
+      "observedReadableMs": 697,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 14,
+      "priming": false,
+      "paintEstimateMs": 555.699951171875,
+      "observedReadableMs": 753,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 15,
+      "priming": false,
+      "paintEstimateMs": 527.89990234375,
+      "observedReadableMs": 530,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 16,
+      "priming": false,
+      "paintEstimateMs": 483.10009765625,
+      "observedReadableMs": 823,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 17,
+      "priming": false,
+      "paintEstimateMs": 503.900146484375,
+      "observedReadableMs": 509,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 18,
+      "priming": false,
+      "paintEstimateMs": 490.300048828125,
+      "observedReadableMs": 872,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 19,
+      "priming": false,
+      "paintEstimateMs": 516,
+      "observedReadableMs": 545,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    {
+      "run": 20,
+      "priming": false,
+      "paintEstimateMs": 518,
+      "observedReadableMs": 520,
+      "metrics": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 1,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 0,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    }
+  ],
+  "interaction": {
+    "firstSourceMs": 58.90000000037253,
+    "switches": [
+      {
+        "mode": "source",
+        "ms": 9.699999999254942
+      },
+      {
+        "mode": "live",
+        "ms": 6.099999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 84.59999999962747
+      },
+      {
+        "mode": "source",
+        "ms": 11.300000000745058
+      },
+      {
+        "mode": "live",
+        "ms": 6.700000001117587
+      },
+      {
+        "mode": "preview",
+        "ms": 70.90000000037253
+      },
+      {
+        "mode": "source",
+        "ms": 7.699999999254942
+      },
+      {
+        "mode": "live",
+        "ms": 8
+      },
+      {
+        "mode": "preview",
+        "ms": 69.59999999962747
+      },
+      {
+        "mode": "source",
+        "ms": 7.5
+      },
+      {
+        "mode": "live",
+        "ms": 6.600000001490116
+      },
+      {
+        "mode": "preview",
+        "ms": 74.89999999850988
+      },
+      {
+        "mode": "source",
+        "ms": 8.400000000372529
+      },
+      {
+        "mode": "live",
+        "ms": 7.900000000372529
+      },
+      {
+        "mode": "preview",
+        "ms": 71.59999999962747
+      },
+      {
+        "mode": "source",
+        "ms": 7.799999998882413
+      },
+      {
+        "mode": "live",
+        "ms": 8.599999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 29.199999999254942
+      },
+      {
+        "mode": "source",
+        "ms": 7.599999999627471
+      },
+      {
+        "mode": "live",
+        "ms": 5.900000000372529
+      },
+      {
+        "mode": "preview",
+        "ms": 76.10000000149012
+      },
+      {
+        "mode": "source",
+        "ms": 8
+      },
+      {
+        "mode": "live",
+        "ms": 7.300000000745058
+      },
+      {
+        "mode": "preview",
+        "ms": 70.20000000111759
+      },
+      {
+        "mode": "source",
+        "ms": 7.800000000745058
+      },
+      {
+        "mode": "live",
+        "ms": 8.299999998882413
+      },
+      {
+        "mode": "preview",
+        "ms": 70.79999999888241
+      },
+      {
+        "mode": "source",
+        "ms": 7.700000001117587
+      },
+      {
+        "mode": "live",
+        "ms": 6.199999999254942
+      },
+      {
+        "mode": "preview",
+        "ms": 70.5
+      },
+      {
+        "mode": "source",
+        "ms": 9
+      },
+      {
+        "mode": "live",
+        "ms": 8.599999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 69
+      },
+      {
+        "mode": "source",
+        "ms": 8.300000000745058
+      },
+      {
+        "mode": "live",
+        "ms": 8.599999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 70
+      },
+      {
+        "mode": "source",
+        "ms": 7.300000000745058
+      },
+      {
+        "mode": "live",
+        "ms": 7.5
+      },
+      {
+        "mode": "preview",
+        "ms": 77.40000000037253
+      },
+      {
+        "mode": "source",
+        "ms": 10
+      },
+      {
+        "mode": "live",
+        "ms": 9.5
+      },
+      {
+        "mode": "preview",
+        "ms": 69.90000000037253
+      },
+      {
+        "mode": "source",
+        "ms": 7.800000000745058
+      },
+      {
+        "mode": "live",
+        "ms": 7.099999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 70.19999999925494
+      },
+      {
+        "mode": "source",
+        "ms": 7.900000000372529
+      },
+      {
+        "mode": "live",
+        "ms": 8.599999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 71.39999999850988
+      },
+      {
+        "mode": "source",
+        "ms": 8.700000001117587
+      },
+      {
+        "mode": "live",
+        "ms": 8.599999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 73.59999999962747
+      },
+      {
+        "mode": "source",
+        "ms": 7.899999998509884
+      },
+      {
+        "mode": "live",
+        "ms": 7.400000000372529
+      },
+      {
+        "mode": "preview",
+        "ms": 70.09999999962747
+      },
+      {
+        "mode": "source",
+        "ms": 8.400000000372529
+      },
+      {
+        "mode": "live",
+        "ms": 5.899999998509884
+      },
+      {
+        "mode": "preview",
+        "ms": 78.70000000111759
+      },
+      {
+        "mode": "source",
+        "ms": 8.5
+      },
+      {
+        "mode": "live",
+        "ms": 7.099999999627471
+      },
+      {
+        "mode": "preview",
+        "ms": 70
+      }
+    ],
+    "trends": [
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      {
+        "dom": 4313,
+        "queued": 0,
+        "running": 0,
+        "surfaces": 1,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      }
+    ],
+    "cursor": {
+      "before": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 2,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 1,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      },
+      "after": {
+        "parseQueued": 1,
+        "parseStarted": 1,
+        "parseFinished": 1,
+        "parseCommitted": 1,
+        "serialized": 2,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 1,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      }
+    },
+    "trace": [
+      {
+        "event": "parseQueued",
+        "at": 57.79999999888241,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 1,
+          "surfaceEpoch": 2,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "parseStarted",
+        "at": 57.79999999888241,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 1,
+          "surfaceEpoch": 2,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "parseFinished",
+        "at": 80,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 1,
+          "surfaceEpoch": 2,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "renderCommitted",
+        "at": 80.89999999850988,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 1,
+          "surfaceEpoch": 2,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 148.89999999850988,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 1,
+          "surfaceEpoch": 2,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 1941.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 3,
+          "surfaceEpoch": 5,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 2099.2999999988824,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 5,
+          "surfaceEpoch": 8,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 2375.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 7,
+          "surfaceEpoch": 11,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 2523.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 9,
+          "surfaceEpoch": 14,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 2679.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 11,
+          "surfaceEpoch": 17,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 2822.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 13,
+          "surfaceEpoch": 20,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 2920.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 15,
+          "surfaceEpoch": 23,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3106.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 17,
+          "surfaceEpoch": 26,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3259.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 19,
+          "surfaceEpoch": 29,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3399.7999999988824,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 21,
+          "surfaceEpoch": 32,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3538.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 23,
+          "surfaceEpoch": 35,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3686.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 25,
+          "surfaceEpoch": 38,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3833.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 27,
+          "surfaceEpoch": 41,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 3985.7999999988824,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 29,
+          "surfaceEpoch": 44,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 4146.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 31,
+          "surfaceEpoch": 47,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 4289.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 33,
+          "surfaceEpoch": 50,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 4428.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 35,
+          "surfaceEpoch": 53,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 4570.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 37,
+          "surfaceEpoch": 56,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 4715.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 39,
+          "surfaceEpoch": 59,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 4865.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 41,
+          "surfaceEpoch": 62,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "previewPaint",
+        "at": 5008.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 0,
+          "requestId": 43,
+          "surfaceEpoch": 65,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5469.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 1,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5470.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 1,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5494.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 2,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5497.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 2,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5526,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 3,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5526.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 3,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5556.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 4,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5558.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 4,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5587.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 5,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5591.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 5,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5618.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 6,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5619.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 6,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5649.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 7,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5652.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 7,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5680.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 8,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5680.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 8,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5710.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 9,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5714.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 9,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5742,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 10,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5742.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 10,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5773,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 11,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5775,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 11,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5804.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 12,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5808.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 12,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5835.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 13,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5836.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 13,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5866.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 14,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5869.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 14,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5897.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 15,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5898.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 15,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5927.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 16,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5930.5,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 16,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5959.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 17,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5959.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 17,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 5990.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 18,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 5991.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 18,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6022.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 19,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6025.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 19,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6052,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 20,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6052.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 20,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6082.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 21,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6086.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 21,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6113.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 22,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6114.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 22,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6145.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 23,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6147.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 23,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6176.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 24,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6180.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 24,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6207.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 25,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6208.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 25,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6238.199999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 26,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6241.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 26,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6268.699999999255,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 27,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6269.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 27,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6299.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 28,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6303.0999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 28,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6330.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 29,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6330.799999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 29,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputReceived",
+        "at": 6361.39999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 30,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "inputPaint",
+        "at": 6363.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 30,
+          "requestId": 44,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "parseQueued",
+        "at": 6484.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 30,
+          "requestId": 45,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "parseStarted",
+        "at": 6484.299999998882,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 30,
+          "requestId": 45,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "parseFinished",
+        "at": 6487.5999999996275,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 30,
+          "requestId": 45,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      },
+      {
+        "event": "renderCommitted",
+        "at": 6487.89999999851,
+        "identity": {
+          "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+          "revision": 30,
+          "requestId": 45,
+          "surfaceEpoch": 66,
+          "themeEpoch": 0
+        }
+      }
+    ],
+    "inputFrameMs": [
+      0.8000000007450581,
+      2.900000000372529,
+      0.5,
+      2.400000000372529,
+      3.900000000372529,
+      1,
+      3.399999998509884,
+      0.5,
+      3.400000000372529,
+      0.5,
+      2,
+      3.899999998509884,
+      1.099999999627471,
+      2.800000000745058,
+      0.5,
+      2.800000000745058,
+      0.599999999627471,
+      1,
+      3.099999999627471,
+      0.7999999988824129,
+      3.900000000372529,
+      0.599999999627471,
+      2,
+      4.5,
+      1,
+      3.5,
+      0.900000000372529,
+      3.800000000745058,
+      0.5,
+      2.200000001117587
+    ],
+    "final": {
+      "metrics": {
+        "parseQueued": 2,
+        "parseStarted": 2,
+        "parseFinished": 2,
+        "parseCommitted": 2,
+        "serialized": 3,
+        "queueMax": 1,
+        "diagramQueueMax": 0,
+        "diagramStarted": 0,
+        "editorCreated": 1,
+        "katexLoaded": 0,
+        "mermaidLoaded": 0
+      },
+      "trace": [
+        {
+          "event": "parseQueued",
+          "at": 57.79999999888241,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 1,
+            "surfaceEpoch": 2,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "parseStarted",
+          "at": 57.79999999888241,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 1,
+            "surfaceEpoch": 2,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "parseFinished",
+          "at": 80,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 1,
+            "surfaceEpoch": 2,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "renderCommitted",
+          "at": 80.89999999850988,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 1,
+            "surfaceEpoch": 2,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 148.89999999850988,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 1,
+            "surfaceEpoch": 2,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 1941.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 3,
+            "surfaceEpoch": 5,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 2099.2999999988824,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 5,
+            "surfaceEpoch": 8,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 2375.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 7,
+            "surfaceEpoch": 11,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 2523.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 9,
+            "surfaceEpoch": 14,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 2679.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 11,
+            "surfaceEpoch": 17,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 2822.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 13,
+            "surfaceEpoch": 20,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 2920.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 15,
+            "surfaceEpoch": 23,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3106.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 17,
+            "surfaceEpoch": 26,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3259.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 19,
+            "surfaceEpoch": 29,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3399.7999999988824,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 21,
+            "surfaceEpoch": 32,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3538.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 23,
+            "surfaceEpoch": 35,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3686.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 25,
+            "surfaceEpoch": 38,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3833.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 27,
+            "surfaceEpoch": 41,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 3985.7999999988824,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 29,
+            "surfaceEpoch": 44,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 4146.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 31,
+            "surfaceEpoch": 47,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 4289.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 33,
+            "surfaceEpoch": 50,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 4428.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 35,
+            "surfaceEpoch": 53,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 4570.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 37,
+            "surfaceEpoch": 56,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 4715.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 39,
+            "surfaceEpoch": 59,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 4865.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 41,
+            "surfaceEpoch": 62,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "previewPaint",
+          "at": 5008.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 0,
+            "requestId": 43,
+            "surfaceEpoch": 65,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5469.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 1,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5470.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 1,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5494.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 2,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5497.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 2,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5526,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 3,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5526.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 3,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5556.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 4,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5558.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 4,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5587.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 5,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5591.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 5,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5618.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 6,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5619.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 6,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5649.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 7,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5652.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 7,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5680.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 8,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5680.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 8,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5710.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 9,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5714.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 9,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5742,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 10,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5742.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 10,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5773,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 11,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5775,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 11,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5804.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 12,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5808.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 12,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5835.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 13,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5836.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 13,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5866.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 14,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5869.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 14,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5897.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 15,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5898.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 15,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5927.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 16,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5930.5,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 16,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5959.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 17,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5959.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 17,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 5990.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 18,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 5991.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 18,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6022.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 19,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6025.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 19,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6052,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 20,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6052.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 20,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6082.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 21,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6086.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 21,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6113.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 22,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6114.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 22,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6145.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 23,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6147.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 23,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6176.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 24,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6180.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 24,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6207.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 25,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6208.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 25,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6238.199999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 26,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6241.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 26,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6268.699999999255,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 27,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6269.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 27,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6299.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 28,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6303.0999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 28,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6330.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 29,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6330.799999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 29,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputReceived",
+          "at": 6361.39999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 30,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "inputPaint",
+          "at": 6363.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 30,
+            "requestId": 44,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "parseQueued",
+          "at": 6484.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 30,
+            "requestId": 45,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "parseStarted",
+          "at": 6484.299999998882,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 30,
+            "requestId": 45,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "parseFinished",
+          "at": 6487.5999999996275,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 30,
+            "requestId": 45,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        },
+        {
+          "event": "renderCommitted",
+          "at": 6487.89999999851,
+          "identity": {
+            "docId": "28c4fe29-5dee-48ae-8098-211a78360e95",
+            "revision": 30,
+            "requestId": 45,
+            "surfaceEpoch": 66,
+            "themeEpoch": 0
+          }
+        }
+      ],
+      "renderers": {
+        "queued": 0,
+        "running": 0,
+        "surfaces": 0,
+        "formulaCacheEntries": 0,
+        "formulaCacheBytes": 0
+      },
+      "mode": "live",
+      "revision": 30,
+      "dirty": true,
+      "length": 102430
+    }
+  },
+  "rendering": [
+    {
+      "file": "math.md",
+      "count": 6,
+      "elapsedIncludingScrollingMs": 99,
+      "errors": [
+        "渲染失败（源码保留）：ParseError: KaTeX parse error: Undefined control sequence: \\definitelyUnsupportedCommand at position 1: \\̲d̲e̲f̲i̲n̲i̲t̲e̲l̲y̲U̲n̲s̲u̲p̲p̲o̲r̲t̲e̲d̲C̲o̲m̲m̲a̲n̲d̲{x}"
+      ],
+      "diagnostics": {
+        "metrics": {
+          "parseQueued": 1,
+          "parseStarted": 1,
+          "parseFinished": 1,
+          "parseCommitted": 1,
+          "serialized": 1,
+          "queueMax": 1,
+          "diagramQueueMax": 0,
+          "diagramStarted": 0,
+          "editorCreated": 0,
+          "katexLoaded": 1,
+          "mermaidLoaded": 0
+        },
+        "trace": [
+          {
+            "event": "parseQueued",
+            "at": 79.90000000037253,
+            "identity": {
+              "docId": "4a31ba17-ff36-4d04-8ebb-919a4b32bfbf",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "parseStarted",
+            "at": 79.90000000037253,
+            "identity": {
+              "docId": "4a31ba17-ff36-4d04-8ebb-919a4b32bfbf",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "parseFinished",
+            "at": 94.80000000074506,
+            "identity": {
+              "docId": "4a31ba17-ff36-4d04-8ebb-919a4b32bfbf",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "renderCommitted",
+            "at": 94.80000000074506,
+            "identity": {
+              "docId": "4a31ba17-ff36-4d04-8ebb-919a4b32bfbf",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "previewPaint",
+            "at": 104.30000000074506,
+            "identity": {
+              "docId": "4a31ba17-ff36-4d04-8ebb-919a4b32bfbf",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          }
+        ],
+        "renderers": {
+          "queued": 0,
+          "running": 0,
+          "surfaces": 1,
+          "formulaCacheEntries": 5,
+          "formulaCacheBytes": 26634
+        },
+        "mode": "preview",
+        "revision": 0,
+        "dirty": false,
+        "length": 242
+      },
+      "memory": [
+        {
+          "pid": 25944,
+          "name": "md-lite",
+          "privateWorkingSet": 10584064,
+          "privateBytes": 14569472,
+          "workingSet": 43679744
+        },
+        {
+          "pid": 50656,
+          "name": "msedgewebview2#34",
+          "privateWorkingSet": 40886272,
+          "privateBytes": 51122176,
+          "workingSet": 142487552
+        },
+        {
+          "pid": 43464,
+          "name": "msedgewebview2#35",
+          "privateWorkingSet": 1691648,
+          "privateBytes": 2613248,
+          "workingSet": 11530240
+        },
+        {
+          "pid": 23756,
+          "name": "msedgewebview2#36",
+          "privateWorkingSet": 24731648,
+          "privateBytes": 83578880,
+          "workingSet": 76701696
+        },
+        {
+          "pid": 5928,
+          "name": "msedgewebview2#37",
+          "privateWorkingSet": 7143424,
+          "privateBytes": 13103104,
+          "workingSet": 40067072
+        },
+        {
+          "pid": 18384,
+          "name": "msedgewebview2#38",
+          "privateWorkingSet": 3756032,
+          "privateBytes": 9248768,
+          "workingSet": 22216704
+        },
+        {
+          "pid": 1820,
+          "name": "msedgewebview2#39",
+          "privateWorkingSet": 34074624,
+          "privateBytes": 48422912,
+          "workingSet": 95780864
+        }
+      ]
+    },
+    {
+      "file": "diagrams.md",
+      "count": 5,
+      "elapsedIncludingScrollingMs": 170,
+      "errors": [],
+      "diagnostics": {
+        "metrics": {
+          "parseQueued": 1,
+          "parseStarted": 1,
+          "parseFinished": 1,
+          "parseCommitted": 1,
+          "serialized": 1,
+          "queueMax": 1,
+          "diagramQueueMax": 4,
+          "diagramStarted": 5,
+          "editorCreated": 0,
+          "katexLoaded": 0,
+          "mermaidLoaded": 1
+        },
+        "trace": [
+          {
+            "event": "parseQueued",
+            "at": 57.90000000037253,
+            "identity": {
+              "docId": "5cd3f2b4-6a8d-40a5-bc94-186e78fdaed5",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "parseStarted",
+            "at": 57.90000000037253,
+            "identity": {
+              "docId": "5cd3f2b4-6a8d-40a5-bc94-186e78fdaed5",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "parseFinished",
+            "at": 76.10000000149012,
+            "identity": {
+              "docId": "5cd3f2b4-6a8d-40a5-bc94-186e78fdaed5",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "renderCommitted",
+            "at": 76.20000000111759,
+            "identity": {
+              "docId": "5cd3f2b4-6a8d-40a5-bc94-186e78fdaed5",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "previewPaint",
+            "at": 107.40000000037253,
+            "identity": {
+              "docId": "5cd3f2b4-6a8d-40a5-bc94-186e78fdaed5",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          }
+        ],
+        "renderers": {
+          "queued": 0,
+          "running": 0,
+          "surfaces": 1,
+          "formulaCacheEntries": 0,
+          "formulaCacheBytes": 0
+        },
+        "mode": "preview",
+        "revision": 0,
+        "dirty": false,
+        "length": 425
+      },
+      "memory": [
+        {
+          "pid": 50172,
+          "name": "md-lite",
+          "privateWorkingSet": 11026432,
+          "privateBytes": 14839808,
+          "workingSet": 44257280
+        },
+        {
+          "pid": 16040,
+          "name": "msedgewebview2#34",
+          "privateWorkingSet": 40804352,
+          "privateBytes": 50905088,
+          "workingSet": 142426112
+        },
+        {
+          "pid": 50236,
+          "name": "msedgewebview2#35",
+          "privateWorkingSet": 1724416,
+          "privateBytes": 2654208,
+          "workingSet": 11739136
+        },
+        {
+          "pid": 16488,
+          "name": "msedgewebview2#36",
+          "privateWorkingSet": 29761536,
+          "privateBytes": 119177216,
+          "workingSet": 85331968
+        },
+        {
+          "pid": 5312,
+          "name": "msedgewebview2#37",
+          "privateWorkingSet": 7249920,
+          "privateBytes": 13217792,
+          "workingSet": 40202240
+        },
+        {
+          "pid": 46236,
+          "name": "msedgewebview2#38",
+          "privateWorkingSet": 3792896,
+          "privateBytes": 9326592,
+          "workingSet": 22237184
+        },
+        {
+          "pid": 23292,
+          "name": "msedgewebview2#39",
+          "privateWorkingSet": 53764096,
+          "privateBytes": 69795840,
+          "workingSet": 118706176
+        }
+      ]
+    },
+    {
+      "file": "many-diagrams.md",
+      "count": 20,
+      "elapsedIncludingScrollingMs": 1227,
+      "errors": [],
+      "diagnostics": {
+        "metrics": {
+          "parseQueued": 1,
+          "parseStarted": 1,
+          "parseFinished": 1,
+          "parseCommitted": 1,
+          "serialized": 1,
+          "queueMax": 1,
+          "diagramQueueMax": 1,
+          "diagramStarted": 20,
+          "editorCreated": 0,
+          "katexLoaded": 0,
+          "mermaidLoaded": 1
+        },
+        "trace": [
+          {
+            "event": "parseQueued",
+            "at": 62,
+            "identity": {
+              "docId": "d92b6091-0f39-4b51-9821-2ec12e6ca919",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "parseStarted",
+            "at": 62,
+            "identity": {
+              "docId": "d92b6091-0f39-4b51-9821-2ec12e6ca919",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "parseFinished",
+            "at": 91.39999999850988,
+            "identity": {
+              "docId": "d92b6091-0f39-4b51-9821-2ec12e6ca919",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "renderCommitted",
+            "at": 91.59999999962747,
+            "identity": {
+              "docId": "d92b6091-0f39-4b51-9821-2ec12e6ca919",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          },
+          {
+            "event": "previewPaint",
+            "at": 117.69999999925494,
+            "identity": {
+              "docId": "d92b6091-0f39-4b51-9821-2ec12e6ca919",
+              "revision": 0,
+              "requestId": 1,
+              "surfaceEpoch": 2,
+              "themeEpoch": 0
+            }
+          }
+        ],
+        "renderers": {
+          "queued": 0,
+          "running": 0,
+          "surfaces": 1,
+          "formulaCacheEntries": 0,
+          "formulaCacheBytes": 0
+        },
+        "mode": "preview",
+        "revision": 0,
+        "dirty": false,
+        "length": 3910
+      },
+      "memory": [
+        {
+          "pid": 14152,
+          "name": "md-lite",
+          "privateWorkingSet": 11284480,
+          "privateBytes": 14651392,
+          "workingSet": 44429312
+        },
+        {
+          "pid": 43556,
+          "name": "msedgewebview2#34",
+          "privateWorkingSet": 49774592,
+          "privateBytes": 60121088,
+          "workingSet": 151384064
+        },
+        {
+          "pid": 23544,
+          "name": "msedgewebview2#35",
+          "privateWorkingSet": 1728512,
+          "privateBytes": 2658304,
+          "workingSet": 11743232
+        },
+        {
+          "pid": 46708,
+          "name": "msedgewebview2#36",
+          "privateWorkingSet": 26996736,
+          "privateBytes": 86175744,
+          "workingSet": 81948672
+        },
+        {
+          "pid": 4084,
+          "name": "msedgewebview2#37",
+          "privateWorkingSet": 7249920,
+          "privateBytes": 13213696,
+          "workingSet": 40210432
+        },
+        {
+          "pid": 28720,
+          "name": "msedgewebview2#38",
+          "privateWorkingSet": 3776512,
+          "privateBytes": 9297920,
+          "workingSet": 22212608
+        },
+        {
+          "pid": 20348,
+          "name": "msedgewebview2#39",
+          "privateWorkingSet": 99000320,
+          "privateBytes": 115355648,
+          "workingSet": 164282368
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "exeBytes": 6457856,
+    "exeSha256": "6d573d31033bbccef619970075ecc2457b83bea704c2e9a494b3161018656c54",
+    "assets": [
+      {
+        "name": "abnfDiagram-VCTEODGH-D_vgsD_t.js",
+        "bytes": 1809,
+        "gzipBytes": 890
+      },
+      {
+        "name": "arc-DeiIKmXn.js",
+        "bytes": 3440,
+        "gzipBytes": 1485
+      },
+      {
+        "name": "architectureDiagram-5GKGNRK7-B7FdymMI.js",
+        "bytes": 151821,
+        "gzipBytes": 43126
+      },
+      {
+        "name": "blockDiagram-I7D4REHJ-CwxnkS7U.js",
+        "bytes": 41757,
+        "gzipBytes": 13579
+      },
+      {
+        "name": "c4Diagram-7LVT6UL2-DrU6ATHR.js",
+        "bytes": 65469,
+        "gzipBytes": 18785
+      },
+      {
+        "name": "channel-CSzeOt8h.js",
+        "bytes": 115,
+        "gzipBytes": 127
+      },
+      {
+        "name": "chunk-2Q5K7J3B-B2XaCqX0.js",
+        "bytes": 195,
+        "gzipBytes": 161
+      },
+      {
+        "name": "chunk-5VM5RSS4-a8DZmH5q.js",
+        "bytes": 366,
+        "gzipBytes": 270
+      },
+      {
+        "name": "chunk-F27PBJKO-CcXtwiNI.js",
+        "bytes": 1883,
+        "gzipBytes": 827
+      },
+      {
+        "name": "chunk-IMKFNOWR-DWTIkYUA.js",
+        "bytes": 38115,
+        "gzipBytes": 12499
+      },
+      {
+        "name": "chunk-JWPE2WC7-BH94MR82.js",
+        "bytes": 227,
+        "gzipBytes": 169
+      },
+      {
+        "name": "chunk-POPQ4Y6H-BL1LPcKA.js",
+        "bytes": 506,
+        "gzipBytes": 357
+      },
+      {
+        "name": "chunk-SVP7TREG-BOtBcu02.js",
+        "bytes": 15733,
+        "gzipBytes": 4395
+      },
+      {
+        "name": "chunk-TICWLB2K-ChWaGm07.js",
+        "bytes": 49210,
+        "gzipBytes": 15750
+      },
+      {
+        "name": "chunk-XXDRQBXY-C3-90h7q.js",
+        "bytes": 230,
+        "gzipBytes": 204
+      },
+      {
+        "name": "classDiagram-v2-VYDZK3BY-YlL1Paav.js",
+        "bytes": 467,
+        "gzipBytes": 318
+      },
+      {
+        "name": "classDiagram-ZZMXUADV-YlL1Paav.js",
+        "bytes": 467,
+        "gzipBytes": 318
+      },
+      {
+        "name": "cose-bilkent-JH36ORCC-CYY4nMvE.js",
+        "bytes": 81697,
+        "gzipBytes": 22477
+      },
+      {
+        "name": "cynefin-OW5HDTMX-BRqkuGIP.js",
+        "bytes": 687494,
+        "gzipBytes": 151764
+      },
+      {
+        "name": "cynefinDiagram-5FMLGOSQ-BwJVUWKH.js",
+        "bytes": 10097,
+        "gzipBytes": 3633
+      },
+      {
+        "name": "cytoscape.esm-BB4DxJjf.js",
+        "bytes": 443036,
+        "gzipBytes": 141977
+      },
+      {
+        "name": "dagre-GXQ25YYZ-C1AwOB1l.js",
+        "bytes": 10676,
+        "gzipBytes": 4029
+      },
+      {
+        "name": "defaultLocale-DX6XiGOO.js",
+        "bytes": 4688,
+        "gzipBytes": 2182
+      },
+      {
+        "name": "diagram-S7CK7UJ4-CtyWHgSE.js",
+        "bytes": 8217,
+        "gzipBytes": 3673
+      },
+      {
+        "name": "diagram-UQ7AKVKN-CXxKqK0h.js",
+        "bytes": 6079,
+        "gzipBytes": 2623
+      },
+      {
+        "name": "diagram-VSXAHHWV-BRnS0mHn.js",
+        "bytes": 10716,
+        "gzipBytes": 4132
+      },
+      {
+        "name": "diagram-VX7I27RA-BTsn_xSa.js",
+        "bytes": 15955,
+        "gzipBytes": 5692
+      },
+      {
+        "name": "diagram-Z3DM3KII-eJcttYa8.js",
+        "bytes": 4213,
+        "gzipBytes": 1835
+      },
+      {
+        "name": "ebnfDiagram-PWID7BFC-9QeWh9SL.js",
+        "bytes": 2005,
+        "gzipBytes": 877
+      },
+      {
+        "name": "editor-zVrF9-d2.js",
+        "bytes": 511495,
+        "gzipBytes": 178385
+      },
+      {
+        "name": "erDiagram-RLTQ6QDP-C_uAqesg.js",
+        "bytes": 30786,
+        "gzipBytes": 10590
+      },
+      {
+        "name": "flowDiagram-HODETNUW-BMRyVXrP.js",
+        "bytes": 61874,
+        "gzipBytes": 19879
+      },
+      {
+        "name": "ganttDiagram-EL5Y4UJY-VZQTa2X5.js",
+        "bytes": 69691,
+        "gzipBytes": 23552
+      },
+      {
+        "name": "gitGraphDiagram-WWUBYQGX-yWZN5ic8.js",
+        "bytes": 29417,
+        "gzipBytes": 8698
+      },
+      {
+        "name": "index-BBPqDwBy.css",
+        "bytes": 5852,
+        "gzipBytes": 2072
+      },
+      {
+        "name": "index-CW34eiwu.js",
+        "bytes": 60612,
+        "gzipBytes": 22047
+      },
+      {
+        "name": "infoDiagram-27XIBGKW-DjV___O-.js",
+        "bytes": 587,
+        "gzipBytes": 405
+      },
+      {
+        "name": "init-Gi6I4Gst.js",
+        "bytes": 147,
+        "gzipBytes": 129
+      },
+      {
+        "name": "ishikawaDiagram-5VMMS53U-BObcgONM.js",
+        "bytes": 17468,
+        "gzipBytes": 6648
+      },
+      {
+        "name": "journeyDiagram-3NMN7TZE-BGeEuQEq.js",
+        "bytes": 23571,
+        "gzipBytes": 8347
+      },
+      {
+        "name": "kanban-definition-UXKFOSKX-D0gY0N07.js",
+        "bytes": 20291,
+        "gzipBytes": 7204
+      },
+      {
+        "name": "katex-BYZTj3zW.css",
+        "bytes": 29288,
+        "gzipBytes": 8052
+      },
+      {
+        "name": "katex-HP8lGamR.js",
+        "bytes": 261313,
+        "gzipBytes": 77572
+      },
+      {
+        "name": "KaTeX_AMS-Regular-BQhdFMY1.woff2",
+        "bytes": 28076,
+        "gzipBytes": 28104
+      },
+      {
+        "name": "KaTeX_AMS-Regular-DMm9YOAa.woff",
+        "bytes": 33516,
+        "gzipBytes": 33536
+      },
+      {
+        "name": "KaTeX_AMS-Regular-DRggAlZN.ttf",
+        "bytes": 63632,
+        "gzipBytes": 34713
+      },
+      {
+        "name": "KaTeX_Caligraphic-Bold-ATXxdsX0.ttf",
+        "bytes": 12368,
+        "gzipBytes": 7856
+      },
+      {
+        "name": "KaTeX_Caligraphic-Bold-BEiXGLvX.woff",
+        "bytes": 7716,
+        "gzipBytes": 7677
+      },
+      {
+        "name": "KaTeX_Caligraphic-Bold-Dq_IR9rO.woff2",
+        "bytes": 6912,
+        "gzipBytes": 6935
+      },
+      {
+        "name": "KaTeX_Caligraphic-Regular-CTRA-rTL.woff",
+        "bytes": 7656,
+        "gzipBytes": 7621
+      },
+      {
+        "name": "KaTeX_Caligraphic-Regular-Di6jR-x-.woff2",
+        "bytes": 6908,
+        "gzipBytes": 6931
+      },
+      {
+        "name": "KaTeX_Caligraphic-Regular-wX97UBjC.ttf",
+        "bytes": 12344,
+        "gzipBytes": 7796
+      },
+      {
+        "name": "KaTeX_Fraktur-Bold-BdnERNNW.ttf",
+        "bytes": 19584,
+        "gzipBytes": 13494
+      },
+      {
+        "name": "KaTeX_Fraktur-Bold-BsDP51OF.woff",
+        "bytes": 13296,
+        "gzipBytes": 13279
+      },
+      {
+        "name": "KaTeX_Fraktur-Bold-CL6g_b3V.woff2",
+        "bytes": 11348,
+        "gzipBytes": 11371
+      },
+      {
+        "name": "KaTeX_Fraktur-Regular-CB_wures.ttf",
+        "bytes": 19572,
+        "gzipBytes": 13431
+      },
+      {
+        "name": "KaTeX_Fraktur-Regular-CTYiF6lA.woff2",
+        "bytes": 11316,
+        "gzipBytes": 11339
+      },
+      {
+        "name": "KaTeX_Fraktur-Regular-Dxdc4cR9.woff",
+        "bytes": 13208,
+        "gzipBytes": 13192
+      },
+      {
+        "name": "KaTeX_Main-Bold-Cx986IdX.woff2",
+        "bytes": 25324,
+        "gzipBytes": 25352
+      },
+      {
+        "name": "KaTeX_Main-Bold-Jm3AIy58.woff",
+        "bytes": 29912,
+        "gzipBytes": 29940
+      },
+      {
+        "name": "KaTeX_Main-Bold-waoOVXN0.ttf",
+        "bytes": 51336,
+        "gzipBytes": 30811
+      },
+      {
+        "name": "KaTeX_Main-BoldItalic-DxDJ3AOS.woff2",
+        "bytes": 16780,
+        "gzipBytes": 16808
+      },
+      {
+        "name": "KaTeX_Main-BoldItalic-DzxPMmG6.ttf",
+        "bytes": 32968,
+        "gzipBytes": 19667
+      },
+      {
+        "name": "KaTeX_Main-BoldItalic-SpSLRI95.woff",
+        "bytes": 19412,
+        "gzipBytes": 19405
+      },
+      {
+        "name": "KaTeX_Main-Italic-3WenGoN9.ttf",
+        "bytes": 33580,
+        "gzipBytes": 19927
+      },
+      {
+        "name": "KaTeX_Main-Italic-BMLOBm91.woff",
+        "bytes": 19676,
+        "gzipBytes": 19665
+      },
+      {
+        "name": "KaTeX_Main-Italic-NWA7e6Wa.woff2",
+        "bytes": 16988,
+        "gzipBytes": 17016
+      },
+      {
+        "name": "KaTeX_Main-Regular-B22Nviop.woff2",
+        "bytes": 26272,
+        "gzipBytes": 26300
+      },
+      {
+        "name": "KaTeX_Main-Regular-Dr94JaBh.woff",
+        "bytes": 30772,
+        "gzipBytes": 30795
+      },
+      {
+        "name": "KaTeX_Main-Regular-ypZvNtVU.ttf",
+        "bytes": 53580,
+        "gzipBytes": 31728
+      },
+      {
+        "name": "KaTeX_Math-BoldItalic-B3XSjfu4.ttf",
+        "bytes": 31196,
+        "gzipBytes": 19007
+      },
+      {
+        "name": "KaTeX_Math-BoldItalic-CZnvNsCZ.woff2",
+        "bytes": 16400,
+        "gzipBytes": 16423
+      },
+      {
+        "name": "KaTeX_Math-BoldItalic-iY-2wyZ7.woff",
+        "bytes": 18668,
+        "gzipBytes": 18647
+      },
+      {
+        "name": "KaTeX_Math-Italic-DA0__PXp.woff",
+        "bytes": 18748,
+        "gzipBytes": 18738
+      },
+      {
+        "name": "KaTeX_Math-Italic-flOr_0UB.ttf",
+        "bytes": 31308,
+        "gzipBytes": 19080
+      },
+      {
+        "name": "KaTeX_Math-Italic-t53AETM-.woff2",
+        "bytes": 16440,
+        "gzipBytes": 16468
+      },
+      {
+        "name": "KaTeX_SansSerif-Bold-CFMepnvq.ttf",
+        "bytes": 24504,
+        "gzipBytes": 14778
+      },
+      {
+        "name": "KaTeX_SansSerif-Bold-D1sUS0GD.woff2",
+        "bytes": 12216,
+        "gzipBytes": 12239
+      },
+      {
+        "name": "KaTeX_SansSerif-Bold-DbIhKOiC.woff",
+        "bytes": 14408,
+        "gzipBytes": 14398
+      },
+      {
+        "name": "KaTeX_SansSerif-Italic-C3H0VqGB.woff2",
+        "bytes": 12028,
+        "gzipBytes": 12051
+      },
+      {
+        "name": "KaTeX_SansSerif-Italic-DN2j7dab.woff",
+        "bytes": 14112,
+        "gzipBytes": 14087
+      },
+      {
+        "name": "KaTeX_SansSerif-Italic-YYjJ1zSn.ttf",
+        "bytes": 22364,
+        "gzipBytes": 14432
+      },
+      {
+        "name": "KaTeX_SansSerif-Regular-BNo7hRIc.ttf",
+        "bytes": 19436,
+        "gzipBytes": 12547
+      },
+      {
+        "name": "KaTeX_SansSerif-Regular-CS6fqUqJ.woff",
+        "bytes": 12316,
+        "gzipBytes": 12298
+      },
+      {
+        "name": "KaTeX_SansSerif-Regular-DDBCnlJ7.woff2",
+        "bytes": 10344,
+        "gzipBytes": 10367
+      },
+      {
+        "name": "KaTeX_Script-Regular-C5JkGWo-.ttf",
+        "bytes": 16648,
+        "gzipBytes": 10813
+      },
+      {
+        "name": "KaTeX_Script-Regular-D3wIWfF6.woff2",
+        "bytes": 9644,
+        "gzipBytes": 9667
+      },
+      {
+        "name": "KaTeX_Script-Regular-D5yQViql.woff",
+        "bytes": 10588,
+        "gzipBytes": 10550
+      },
+      {
+        "name": "KaTeX_Size1-Regular-C195tn64.woff",
+        "bytes": 6496,
+        "gzipBytes": 6465
+      },
+      {
+        "name": "KaTeX_Size1-Regular-Dbsnue_I.ttf",
+        "bytes": 12228,
+        "gzipBytes": 6540
+      },
+      {
+        "name": "KaTeX_Size1-Regular-mCD8mA8B.woff2",
+        "bytes": 5468,
+        "gzipBytes": 5491
+      },
+      {
+        "name": "KaTeX_Size2-Regular-B7gKUWhC.ttf",
+        "bytes": 11508,
+        "gzipBytes": 6241
+      },
+      {
+        "name": "KaTeX_Size2-Regular-Dy4dx90m.woff2",
+        "bytes": 5208,
+        "gzipBytes": 5231
+      },
+      {
+        "name": "KaTeX_Size2-Regular-oD1tc_U0.woff",
+        "bytes": 6188,
+        "gzipBytes": 6161
+      },
+      {
+        "name": "KaTeX_Size3-Regular-CTq5MqoE.woff",
+        "bytes": 4420,
+        "gzipBytes": 4380
+      },
+      {
+        "name": "KaTeX_Size3-Regular-DgpXs0kz.ttf",
+        "bytes": 7588,
+        "gzipBytes": 4389
+      },
+      {
+        "name": "KaTeX_Size4-Regular-BF-4gkZK.woff",
+        "bytes": 5980,
+        "gzipBytes": 5944
+      },
+      {
+        "name": "KaTeX_Size4-Regular-Dl5lxZxV.woff2",
+        "bytes": 4928,
+        "gzipBytes": 4951
+      },
+      {
+        "name": "KaTeX_Size4-Regular-DWFBv043.ttf",
+        "bytes": 10364,
+        "gzipBytes": 6061
+      },
+      {
+        "name": "KaTeX_Typewriter-Regular-C0xS9mPB.woff",
+        "bytes": 16028,
+        "gzipBytes": 16010
+      },
+      {
+        "name": "KaTeX_Typewriter-Regular-CO6r4hn1.woff2",
+        "bytes": 13568,
+        "gzipBytes": 13591
+      },
+      {
+        "name": "KaTeX_Typewriter-Regular-D3Ib7_Hf.ttf",
+        "bytes": 27556,
+        "gzipBytes": 16479
+      },
+      {
+        "name": "layout-55TQ3mnE.js",
+        "bytes": 35436,
+        "gzipBytes": 12747
+      },
+      {
+        "name": "linear-DaAhg-Bg.js",
+        "bytes": 5661,
+        "gzipBytes": 2309
+      },
+      {
+        "name": "mermaid.core-DyNndsbp.js",
+        "bytes": 653177,
+        "gzipBytes": 157878
+      },
+      {
+        "name": "mindmap-definition-YA3MSWOX-Cvacuj52.js",
+        "bytes": 23174,
+        "gzipBytes": 7811
+      },
+      {
+        "name": "ordinal-Cboi1Yqb.js",
+        "bytes": 1189,
+        "gzipBytes": 573
+      },
+      {
+        "name": "pegDiagram-XKGWAZYB-ChUKcYgD.js",
+        "bytes": 1956,
+        "gzipBytes": 922
+      },
+      {
+        "name": "pieDiagram-E7YTZNPT-BbVk-0PE.js",
+        "bytes": 6294,
+        "gzipBytes": 2623
+      },
+      {
+        "name": "quadrantDiagram-AXDQQJYC-CL7kYl0t.js",
+        "bytes": 34010,
+        "gzipBytes": 9965
+      },
+      {
+        "name": "railroadDiagram-O6MQD6OU-B5VP4TCV.js",
+        "bytes": 1606,
+        "gzipBytes": 755
+      },
+      {
+        "name": "render.worker-4kohG1mf.js",
+        "bytes": 110575,
+        "gzipBytes": 48592
+      },
+      {
+        "name": "requirementDiagram-BXWQKSXE-BXqJKPUl.js",
+        "bytes": 30996,
+        "gzipBytes": 9734
+      },
+      {
+        "name": "sankeyDiagram-P5KCCOFB-C3-4iaBA.js",
+        "bytes": 23206,
+        "gzipBytes": 8543
+      },
+      {
+        "name": "sequenceDiagram-WJ2MYXX4-BObh4pGi.js",
+        "bytes": 116960,
+        "gzipBytes": 31112
+      },
+      {
+        "name": "sizeCapture-INFHLROL-CUmyTrb0.js",
+        "bytes": 936,
+        "gzipBytes": 528
+      },
+      {
+        "name": "stateDiagram-D77RDMKH-n0F8vKIv.js",
+        "bytes": 10361,
+        "gzipBytes": 3625
+      },
+      {
+        "name": "stateDiagram-v2-MP3YSRHH-T2vXdfiD.js",
+        "bytes": 428,
+        "gzipBytes": 303
+      },
+      {
+        "name": "swimlanes-42K2YHIH-ihesGWX_.js",
+        "bytes": 115791,
+        "gzipBytes": 42512
+      },
+      {
+        "name": "swimlanesDiagram-VR7AAH4N-CHo4yERB.js",
+        "bytes": 548,
+        "gzipBytes": 369
+      },
+      {
+        "name": "timeline-definition-24CTP7MA-B1i7UlE_.js",
+        "bytes": 30824,
+        "gzipBytes": 10148
+      },
+      {
+        "name": "vennDiagram-4TSXK5OY-B4EZiHxP.js",
+        "bytes": 41961,
+        "gzipBytes": 15696
+      },
+      {
+        "name": "wardleyDiagram-VM6X3IG4-CGYg5m1U.js",
+        "bytes": 25501,
+        "gzipBytes": 6794
+      },
+      {
+        "name": "xychartDiagram-S5SC5T6Z-Dfx-Z3oM.js",
+        "bytes": 44481,
+        "gzipBytes": 12494
+      }
+    ]
+  },
+  "notes": [
+    "All startups are warm process launches; no reboot/cold-start claim.",
+    "Paint timestamps are double-rAF estimates in actual WebView2, not photodiode measurements.",
+    "Remote debugging enabled only through this child process environment.",
+    "Private working set from Windows performance counters includes only application process descendants."
+  ],
+  "fixture": {
+    "name": "plain-102400.md",
+    "bytes": 102400,
+    "utf16": 102400,
+    "sha256": "399b94bdbdc3fb5653654af458ac485127bde2fc4b5e8e05fa721977d25cfbfe"
+  },
+  "plainResources": [
+    "http://tauri.localhost/assets/index-CW34eiwu.js",
+    "http://tauri.localhost/assets/index-BBPqDwBy.css",
+    "http://ipc.localhost/plugin%3Aevent%7Clisten",
+    "http://tauri.localhost/favicon.ico",
+    "http://ipc.localhost/startup_document",
+    "http://tauri.localhost/assets/render.worker-4kohG1mf.js"
+  ],
+  "memoryPlain": [
+    {
+      "pid": 38656,
+      "name": "md-lite",
+      "privateWorkingSet": 11374592,
+      "privateBytes": 14663680,
+      "workingSet": 44396544
+    },
+    {
+      "pid": 26168,
+      "name": "msedgewebview2#34",
+      "privateWorkingSet": 81092608,
+      "privateBytes": 92356608,
+      "workingSet": 182087680
+    },
+    {
+      "pid": 27412,
+      "name": "msedgewebview2#35",
+      "privateWorkingSet": 1724416,
+      "privateBytes": 2646016,
+      "workingSet": 11735040
+    },
+    {
+      "pid": 29248,
+      "name": "msedgewebview2#36",
+      "privateWorkingSet": 23855104,
+      "privateBytes": 81747968,
+      "workingSet": 75886592
+    },
+    {
+      "pid": 17108,
+      "name": "msedgewebview2#37",
+      "privateWorkingSet": 7102464,
+      "privateBytes": 13074432,
+      "workingSet": 39936000
+    },
+    {
+      "pid": 43672,
+      "name": "msedgewebview2#38",
+      "privateWorkingSet": 3788800,
+      "privateBytes": 9318400,
+      "workingSet": 22224896
+    },
+    {
+      "pid": 5760,
+      "name": "msedgewebview2#39",
+      "privateWorkingSet": 72204288,
+      "privateBytes": 88997888,
+      "workingSet": 132333568
+    }
+  ],
+  "success": true
+}

@@ -1,0 +1,1 @@
+{"identifier":"main","description":"Only the local main window and session-bound document commands","windows":["main"],"permissions":["core:window:allow-close","core:window:allow-destroy","core:event:allow-listen","core:event:allow-unlisten","allow-startup-document","allow-prepare-open","allow-prepare-new","allow-commit-document","allow-save-document"]}

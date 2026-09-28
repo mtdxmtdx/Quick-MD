@@ -1,0 +1,5 @@
+* text=auto eol=lf
+# Encoding, BOM and EOL fixtures must retain their exact bytes on checkout.
+tests/fixtures/** -text
+*.png binary
+*.ico binary

@@ -1,0 +1,121 @@
+[
+  {
+    "name": "empty.md",
+    "bytes": 0,
+    "utf16": 0,
+    "lines": 1,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "basic.md",
+    "bytes": 370,
+    "utf16": 271,
+    "lines": 27,
+    "sha256": "0709a9c773f96b073c496222af1f86b124e3697446ab682a1ba10215f369879e"
+  },
+  {
+    "name": "unicode.md",
+    "bytes": 38,
+    "utf16": 19,
+    "lines": 2,
+    "sha256": "dc1e862a8f23fa9e54b2a43c25b61091110fb3bbab8568261eec17cb63014efe"
+  },
+  {
+    "name": "math.md",
+    "bytes": 274,
+    "utf16": 242,
+    "lines": 24,
+    "sha256": "dfe7ffb2e1f8b4259aa2d1b323161a38f503623fbe5edb82eaffcbcd592e0ba5"
+  },
+  {
+    "name": "diagrams.md",
+    "bytes": 479,
+    "utf16": 425,
+    "lines": 37,
+    "sha256": "a62ed4027f19b28b06d18af2137b3239f593cb3931cf47df3c4cca8aa1f960e6"
+  },
+  {
+    "name": "invalid-diagram.md",
+    "bytes": 160,
+    "utf16": 124,
+    "lines": 13,
+    "sha256": "e2b0c37a8d23c4e8c33da6e84d9e9c529179f7a062ea034449264536e106edae"
+  },
+  {
+    "name": "references.md",
+    "bytes": 64,
+    "utf16": 56,
+    "lines": 9,
+    "sha256": "c61eab7b1f2204f428e91e7ca81dd2a231668a2490c47db98b006a38ea3d30b8"
+  },
+  {
+    "name": "utf8-bom-crlf.md",
+    "bytes": 22,
+    "utf16": 14,
+    "lines": 3,
+    "sha256": "4469b3ada7d431c34c7947a1f25b0440cbf2391ab7d01e23a8e8096413198138"
+  },
+  {
+    "name": "mixed-eol.md",
+    "bytes": 8,
+    "utf16": 8,
+    "lines": 3,
+    "sha256": "830d68e2cc23e5791bb929e30d5febd8d1667416de2ebe7157204d5e6d454755"
+  },
+  {
+    "name": "security.md",
+    "bytes": 130,
+    "utf16": 130,
+    "lines": 10,
+    "sha256": "bfad0b8e58bd3277d5ad938b8ca44249ac3d9c554ba5c856a28e3c71d113f130"
+  },
+  {
+    "name": "many-formulas.md",
+    "bytes": 2090,
+    "utf16": 2090,
+    "lines": 401,
+    "sha256": "42358a4ce29f9d40472d3aa2438b4814e5f60bace089cba65211f16e01f5cee4"
+  },
+  {
+    "name": "many-diagrams.md",
+    "bytes": 6110,
+    "utf16": 3910,
+    "lines": 1381,
+    "sha256": "03ea4f3b15cbda34d215ec70c401fd64bd5c9806c9a3aada8d56a14c31531a47"
+  },
+  {
+    "name": "huge-list.md",
+    "bytes": 118890,
+    "utf16": 118890,
+    "lines": 10001,
+    "sha256": "c22102f92a81cec058d7ebb598943a09a2dd579c643edd28a5afa9cded18260c"
+  },
+  {
+    "name": "long-line.md",
+    "bytes": 300000,
+    "utf16": 120000,
+    "lines": 1,
+    "sha256": "4bb4b232d463ee4b6da5ca5ff0f8a723097492814b0cdd20edc323f76348fdde"
+  },
+  {
+    "name": "plain-10240.md",
+    "bytes": 10240,
+    "utf16": 10240,
+    "lines": 419,
+    "sha256": "fe03408c304e407addbecbe5eb039b64cdd740a8e57920ca0efd1c0cb653b91e"
+  },
+  {
+    "name": "plain-102400.md",
+    "bytes": 102400,
+    "utf16": 102400,
+    "lines": 4181,
+    "sha256": "399b94bdbdc3fb5653654af458ac485127bde2fc4b5e8e05fa721977d25cfbfe"
+  },
+  {
+    "name": "plain-1048576.md",
+    "bytes": 1048576,
+    "utf16": 1048576,
+    "lines": 42801,
+    "sha256": "8f0fa58ac0728ade038b036e4a05b8662d7d899bfd20c0f0880234ac51d7f274"
+  }
+]
