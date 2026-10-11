@@ -70,7 +70,7 @@ async function changeMode(next:Mode,force=false){
  }else {editor?.modeTo('preview');editorHost.hidden=true;preview.hidden=false;preview.focus()}
  await parse();
 }
-async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);words=undefined;countLater();status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'本地文档 · 不联网');await changeMode(initialMode,true)}
+async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);words=undefined;countLater();status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'');await changeMode(initialMode,true)}
 function ask(title:string,message:string,choices:Array<[string,string]>):Promise<string>{const dialog=$<HTMLDialogElement>('#confirm');$('#confirm-title').textContent=title;$('#confirm-text').textContent=message;const actions=$('#confirm-actions');actions.replaceChildren();return new Promise(resolve=>{const finish=(value:string)=>{dialog.close();dialog.oncancel=null;resolve(value);if(mode!=='preview')editor?.view.focus()};for(const [value,label] of choices){const button=document.createElement('button');button.textContent=label;button.onclick=()=>finish(value);actions.append(button)}dialog.oncancel=e=>{e.preventDefault();finish('cancel')};dialog.showModal()})}
 async function save(saveAs=false):Promise<boolean>{
  if(!saveAs&&!session.exactDirty()&&session.name!=='未命名')return true;
@@ -107,7 +107,14 @@ for(const event of ['click','auxclick','dblclick'])document.addEventListener(eve
 document.addEventListener('dragover',e=>e.preventDefault());document.addEventListener('drop',e=>e.preventDefault());
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{themeEpoch++;invalidate();if(mode==='live'){editor?.complex([])}void parse()});
 window.addEventListener('beforeunload',e=>{if(!native&&session.exactDirty())e.preventDefault()});
-async function start(){if(native){await getCurrentWindow().onCloseRequested(e=>{e.preventDefault();afterComposition(()=>void fileAction('close'))});try{await adopt(await invoke<Payload>('startup_document'),'preview')}catch(e){status(String(e));/* Retrieve the unchanged session after a failed startup request. */try{await adopt(await invoke<Payload>('startup_document'),'preview');status(String(e))}catch(next){status(String(next))}}}else await adopt({docId:crypto.randomUUID(),text:'',name:'未命名',mixed:false,eol:'lf'},'preview')}
+// The header is the title bar: caption buttons on the right, empty space drags (double-click maximizes).
+function windowChrome(){const win=getCurrentWindow(),max=$('#win-max');$('.window-controls').hidden=false;
+ $('#win-min').onclick=()=>void win.minimize();max.onclick=()=>void win.toggleMaximize();$('#win-close').onclick=()=>void win.close();
+ const sync=async()=>{const maximized=await win.isMaximized();max.dataset.state=maximized?'restore':'maximize';max.title=maximized?'还原':'最大化';max.setAttribute('aria-label',max.title)};
+ void sync();void win.onResized(()=>void sync());
+ $('header').addEventListener('mousedown',e=>{if(e.button!==0||(e.target as Element).closest('button,summary,details,nav,.actions'))return;if(e.detail===2)void win.toggleMaximize();else void win.startDragging()});
+}
+async function start(){if(native)windowChrome();if(native){await getCurrentWindow().onCloseRequested(e=>{e.preventDefault();afterComposition(()=>void fileAction('close'))});try{await adopt(await invoke<Payload>('startup_document'),'preview')}catch(e){status(String(e));/* Retrieve the unchanged session after a failed startup request. */try{await adopt(await invoke<Payload>('startup_document'),'preview');status(String(e))}catch(next){status(String(next))}}}else await adopt({docId:crypto.randomUUID(),text:'',name:'未命名',mixed:false,eol:'lf'},'preview')}
 void start();
 // Read-only diagnostics are bounded; browser-only fixtures never grant native paths.
 Object.defineProperty(window,'quickMdDiagnostics',{value:()=>({metrics:{...metrics},trace:[...trace],renderers:rendererStats(),mode,revision:session.revision,dirty:session.dirty,length:session.doc.length})});
