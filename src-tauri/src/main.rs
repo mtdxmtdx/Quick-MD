@@ -60,8 +60,8 @@ async fn save_document(window:WebviewWindow,state:State<'_,Store>,doc_id:String,
 fn main(){
  let store=Store{session:Arc::new(Mutex::new(Session{current:document::blank(),candidate:None,startup:false})),operation:Arc::new(Mutex::new(()))};
  tauri::Builder::default().manage(store).setup(|app|{
- tauri::WebviewWindowBuilder::new(app,"main",tauri::WebviewUrl::App("index.html".into())).title("MD Lite").inner_size(1050.,780.).min_inner_size(580.,400.)
+ tauri::WebviewWindowBuilder::new(app,"main",tauri::WebviewUrl::App("index.html".into())).title("Quick MD").inner_size(1050.,780.).min_inner_size(580.,400.)
  .on_navigation(|url|url.scheme()=="tauri"||(url.scheme()=="http"&&url.host_str()==Some("tauri.localhost"))||(cfg!(debug_assertions)&&url.host_str()==Some("127.0.0.1")&&url.port()==Some(1420)))
  .on_new_window(|_,_|tauri::webview::NewWindowResponse::Deny).build()?;Ok(())
- }).invoke_handler(tauri::generate_handler![startup_document,prepare_open,prepare_new,commit_document,save_document]).run(tauri::generate_context!()).expect("启动 MD Lite");
+ }).invoke_handler(tauri::generate_handler![startup_document,prepare_open,prepare_new,commit_document,save_document]).run(tauri::generate_context!()).expect("启动 Quick MD");
 }

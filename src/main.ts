@@ -17,7 +17,7 @@ let disposeHydration=()=>{},timer:ReturnType<typeof setTimeout>|undefined;
 let modeOperation=0,fileBusy=false,pendingSave=false;
 const scrolls:Partial<Record<Mode,number>>={};let anchor={pos:0,offset:0};
 const deferred:Array<()=>void>=[];
-const session=new DocumentSession(()=>{$('#filename').textContent=session.name;$('#dirty').textContent=session.dirty?'●':'';document.title=`${session.dirty?'● ':''}${session.name} — MD Lite`});
+const session=new DocumentSession(()=>{$('#filename').textContent=session.name;$('#dirty').textContent=session.dirty?'●':'';document.title=`${session.dirty?'● ':''}${session.name} — Quick MD`});
 const native='__TAURI_INTERNALS__' in window;
 function status(message:string){$('#status').textContent=message}
 function identity():Identity{return {docId:session.docId,revision:session.revision,requestId,surfaceEpoch:epoch,themeEpoch}}
@@ -26,7 +26,7 @@ function afterComposition(fn:()=>void){if(editor?.composing)deferred.push(fn);el
 function compositionEnded(){const todo=deferred.splice(0);for(const fn of todo)fn();schedule()}
 function invalidate(){epoch++;clearTimeout(timer);client?.cancel();disposeHydration();disposeHydration=()=>{}}
 function previewAnchor(){const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const top=preview.getBoundingClientRect().top;const first=nodes.find(n=>n.getBoundingClientRect().bottom>=top);return first?{pos:Number(first.dataset.from),offset:first.getBoundingClientRect().top-top}:anchor}
-function renderPreview(result:Parsed){disposeHydration();const html=result.blocks.map(block=>`<section data-from="${block.from}">${block.html}</section>`).join('');preview.replaceChildren(cleanFragment(html));if(!result.blocks.length){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='<span class="eyebrow">MD LITE / LOCAL READER</span><h1>让文字，回到中心。</h1><p>打开 Markdown 文件开始阅读，<br>或新建一页，记录此刻的想法。</p>';preview.append(empty)}
+function renderPreview(result:Parsed){disposeHydration();const html=result.blocks.map(block=>`<section data-from="${block.from}">${block.html}</section>`).join('');preview.replaceChildren(cleanFragment(html));if(!result.blocks.length){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='<span class="eyebrow">QUICK MD / LOCAL READER</span><h1>让文字，回到中心。</h1><p>打开 Markdown 文件开始阅读，<br>或新建一页，记录此刻的想法。</p>';preview.append(empty)}
  const id=identity();disposeHydration=hydrate(preview,()=>mode==='preview'&&current(id));requestAnimationFrame(()=>requestAnimationFrame(()=>{if(current(id)&&mode==='preview')record('previewPaint',id)}));
  if(scrolls.preview!==undefined)preview.scrollTop=scrolls.preview;else {const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const node=nodes.find((n,i)=>Number(n.dataset.from)<=anchor.pos&&(!nodes[i+1]||Number(nodes[i+1].dataset.from)>anchor.pos));if(node)preview.scrollTop+=node.getBoundingClientRect().top-preview.getBoundingClientRect().top-anchor.offset}
 }
@@ -92,5 +92,5 @@ window.addEventListener('beforeunload',e=>{if(!native&&session.exactDirty())e.pr
 async function start(){if(native){await getCurrentWindow().onCloseRequested(e=>{e.preventDefault();afterComposition(()=>void fileAction('close'))});try{await adopt(await invoke<Payload>('startup_document'),'preview')}catch(e){status(String(e));/* Retrieve the unchanged session after a failed startup request. */try{await adopt(await invoke<Payload>('startup_document'),'preview');status(String(e))}catch(next){status(String(next))}}}else await adopt({docId:crypto.randomUUID(),text:'',name:'未命名',mixed:false,eol:'lf'},'preview')}
 void start();
 // Read-only diagnostics are bounded; browser-only fixtures never grant native paths.
-Object.defineProperty(window,'mdLiteDiagnostics',{value:()=>({metrics:{...metrics},trace:[...trace],renderers:rendererStats(),mode,revision:session.revision,dirty:session.dirty,length:session.doc.length})});
-if(!native&&import.meta.env.MODE==='test')Object.assign(window,{mdLiteTest:{adopt:(text:string)=>adopt({docId:crypto.randomUUID(),text,name:'fixture.md',mixed:false,eol:'lf'},'preview'),text:()=>session.text(),editor:()=>editor,session,changeMode}});
+Object.defineProperty(window,'quickMdDiagnostics',{value:()=>({metrics:{...metrics},trace:[...trace],renderers:rendererStats(),mode,revision:session.revision,dirty:session.dirty,length:session.doc.length})});
+if(!native&&import.meta.env.MODE==='test')Object.assign(window,{quickMdTest:{adopt:(text:string)=>adopt({docId:crypto.randomUUID(),text,name:'fixture.md',mixed:false,eol:'lf'},'preview'),text:()=>session.text(),editor:()=>editor,session,changeMode}});

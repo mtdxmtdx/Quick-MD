@@ -2,7 +2,7 @@
 
 <img src="src-tauri/icons/icon.png" width="96" alt="Quick MD icon">
 
-Windows 本地 Markdown 阅读与编辑器，应用内名称为 **MD Lite**。Tauri 2 / WebView2、TypeScript 和 CodeMirror 6；没有账号、同步、遥测或 Node sidecar。
+Windows 本地 Markdown 阅读与编辑器。Tauri 2 / WebView2、TypeScript 和 CodeMirror 6；没有账号、同步、遥测或 Node sidecar。
 
 ## 功能
 
@@ -36,10 +36,10 @@ npm run tauri -- dev
 
 ```powershell
 npm run tauri -- build --no-bundle
-& .\src-tauri\target\release\md-lite.exe .\examples\math-and-mermaid.md
+& .\src-tauri\target\release\quick-md.exe .\examples\math-and-mermaid.md
 ```
 
-产物为 `src-tauri/target/release/md-lite.exe`，依赖系统 WebView2。仓库不提交编译产物；当前没有安装器，不自动修改文件关联。
+产物为 `src-tauri/target/release/quick-md.exe`，依赖系统 WebView2。仓库不提交编译产物；当前没有安装器，不自动修改文件关联。
 
 ## 测试与交付
 

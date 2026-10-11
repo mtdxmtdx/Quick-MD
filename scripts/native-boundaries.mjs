@@ -5,7 +5,7 @@ import {spawn,execFileSync} from 'node:child_process';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
-const root=process.cwd(),exe=path.join(root,'src-tauri/target/release/md-lite.exe');
+const root=process.cwd(),exe=path.join(root,'src-tauri/target/release/quick-md.exe');
 const report={at:new Date().toISOString(),exeSha256:createHash('sha256').update(await readFile(exe)).digest('hex'),samples:[]};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 try{
@@ -16,21 +16,21 @@ try{
   try{
    for(let n=0;n<100;n++){try{browser=await chromium.connectOverCDP('http://127.0.0.1:9439');break}catch{await sleep(100)}}if(!browser)throw new Error('CDP not available');
    const page=browser.contexts()[0].pages()[0];page.on('pageerror',e=>sample.errors.push(String(e)));
-   await page.waitForFunction(()=>window.mdLiteDiagnostics?.().trace.some(t=>t.event==='previewPaint'),null,{timeout:60000});
-   sample.observedPreviewMs=Date.now()-started;sample.initial=await page.evaluate(()=>window.mdLiteDiagnostics());
+   await page.waitForFunction(()=>window.quickMdDiagnostics?.().trace.some(t=>t.event==='previewPaint'),null,{timeout:60000});
+   sample.observedPreviewMs=Date.now()-started;sample.initial=await page.evaluate(()=>window.quickMdDiagnostics());
    const editStart=Date.now();await page.getByRole('button',{name:'源码',exact:true}).click();await page.locator('.cm-content').waitFor();sample.sourceReadyMs=Date.now()-editStart;
-   await page.locator('.cm-content').press('Control+End');const inputStart=Date.now();await page.keyboard.insertText('BOUNDARY');await page.waitForFunction(n=>window.mdLiteDiagnostics().length===n,original.length+8);sample.inputObservedMs=Date.now()-inputStart;
-   await page.keyboard.press('Control+z');await page.waitForFunction(n=>window.mdLiteDiagnostics().length===n,original.length);await page.waitForFunction(()=>!window.mdLiteDiagnostics().dirty);
-   sample.final=await page.evaluate(()=>window.mdLiteDiagnostics());if(sample.errors.length)throw new Error(sample.errors.join('\n'));if(await readFile(fixture,'utf8')!==original)throw new Error('Fixture changed without save');
+   await page.locator('.cm-content').press('Control+End');const inputStart=Date.now();await page.keyboard.insertText('BOUNDARY');await page.waitForFunction(n=>window.quickMdDiagnostics().length===n,original.length+8);sample.inputObservedMs=Date.now()-inputStart;
+   await page.keyboard.press('Control+z');await page.waitForFunction(n=>window.quickMdDiagnostics().length===n,original.length);await page.waitForFunction(()=>!window.quickMdDiagnostics().dirty);
+   sample.final=await page.evaluate(()=>window.quickMdDiagnostics());if(sample.errors.length)throw new Error(sample.errors.join('\n'));if(await readFile(fixture,'utf8')!==original)throw new Error('Fixture changed without save');
    if(file==='huge-list.md'){
     const memory=()=>JSON.parse(execFileSync('powershell.exe',['-NoProfile','-File',path.join(root,'scripts/activity.ps1'),'-RootPid',String(child.pid)],{encoding:'utf8'}));
-    sample.idleBefore=memory();sample.idleMetricsBefore=await page.evaluate(()=>window.mdLiteDiagnostics().metrics);const idleStart=Date.now();await sleep(30000);sample.idleAfter=memory();sample.idleWallMs=Date.now()-idleStart;sample.idleMetricsAfter=await page.evaluate(()=>window.mdLiteDiagnostics().metrics);
+    sample.idleBefore=memory();sample.idleMetricsBefore=await page.evaluate(()=>window.quickMdDiagnostics().metrics);const idleStart=Date.now();await sleep(30000);sample.idleAfter=memory();sample.idleWallMs=Date.now()-idleStart;sample.idleMetricsAfter=await page.evaluate(()=>window.quickMdDiagnostics().metrics);
     const before=new Map(sample.idleBefore.map(p=>[p.pid,p.cpuSeconds]));sample.cpuSecondsDelta=sample.idleAfter.reduce((sum,p)=>sum+Math.max(0,p.cpuSeconds-(before.get(p.pid)??p.cpuSeconds)),0);sample.oneCoreCpuPercent=sample.cpuSecondsDelta/(sample.idleWallMs/1000)*100;
    }
    if(file==='plain-1048576.md'){
-    await page.keyboard.press('Control+n');await page.waitForFunction(()=>window.mdLiteDiagnostics().length===0&&window.mdLiteDiagnostics().mode==='live');
+    await page.keyboard.press('Control+n');await page.waitForFunction(()=>window.quickMdDiagnostics().length===0&&window.quickMdDiagnostics().mode==='live');
     await page.waitForFunction(()=>document.activeElement?.classList.contains('cm-content'));
-    await page.keyboard.insertText('focus');await page.waitForFunction(()=>window.mdLiteDiagnostics().length===5);sample.newDocumentFocused=true;
+    await page.keyboard.insertText('focus');await page.waitForFunction(()=>window.quickMdDiagnostics().length===5);sample.newDocumentFocused=true;
    }
    sample.passed=true;report.samples.push(sample);console.log(JSON.stringify(sample));
   }finally{if(browser){const page=browser.contexts()[0]?.pages()[0];if(page&&!page.isClosed())await page.evaluate(()=>{void window.__TAURI_INTERNALS__.invoke('plugin:window|destroy',{label:'main'})}).catch(()=>{});await browser.close().catch(()=>{})}for(let n=0;n<40&&child.exitCode===null;n++)await sleep(50);if(child.exitCode===null)child.kill();await sleep(100)}

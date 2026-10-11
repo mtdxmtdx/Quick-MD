@@ -1,6 +1,6 @@
 # Markdown、LaTeX 与 Mermaid 示例
 
-使用 MD Lite 打开本文件，默认进入预览模式。
+使用 Quick MD 打开本文件，默认进入预览模式。
 
 - **Ctrl+1**：即时预览编辑，点击公式或图表可展开源码。
 - **Ctrl+2**：查看和编辑完整 Markdown 源码。
