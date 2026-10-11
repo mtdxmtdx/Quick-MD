@@ -5,6 +5,7 @@ src-tauri/gen/
 test-results/
 playwright-report/
 .cache/
+/.claude/
 release/
 .env
 .env.*
