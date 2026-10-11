@@ -107,7 +107,14 @@ for(const event of ['click','auxclick','dblclick'])document.addEventListener(eve
 document.addEventListener('dragover',e=>e.preventDefault());document.addEventListener('drop',e=>e.preventDefault());
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{themeEpoch++;invalidate();if(mode==='live'){editor?.complex([])}void parse()});
 window.addEventListener('beforeunload',e=>{if(!native&&session.exactDirty())e.preventDefault()});
-async function start(){if(native){await getCurrentWindow().onCloseRequested(e=>{e.preventDefault();afterComposition(()=>void fileAction('close'))});try{await adopt(await invoke<Payload>('startup_document'),'preview')}catch(e){status(String(e));/* Retrieve the unchanged session after a failed startup request. */try{await adopt(await invoke<Payload>('startup_document'),'preview');status(String(e))}catch(next){status(String(next))}}}else await adopt({docId:crypto.randomUUID(),text:'',name:'未命名',mixed:false,eol:'lf'},'preview')}
+// The header is the title bar: caption buttons on the right, empty space drags (double-click maximizes).
+function windowChrome(){const win=getCurrentWindow(),max=$('#win-max');$('.window-controls').hidden=false;
+ $('#win-min').onclick=()=>void win.minimize();max.onclick=()=>void win.toggleMaximize();$('#win-close').onclick=()=>void win.close();
+ const sync=async()=>{const maximized=await win.isMaximized();max.dataset.state=maximized?'restore':'maximize';max.title=maximized?'还原':'最大化';max.setAttribute('aria-label',max.title)};
+ void sync();void win.onResized(()=>void sync());
+ $('header').addEventListener('mousedown',e=>{if(e.button!==0||(e.target as Element).closest('button,summary,details,nav,.actions'))return;if(e.detail===2)void win.toggleMaximize();else void win.startDragging()});
+}
+async function start(){if(native)windowChrome();if(native){await getCurrentWindow().onCloseRequested(e=>{e.preventDefault();afterComposition(()=>void fileAction('close'))});try{await adopt(await invoke<Payload>('startup_document'),'preview')}catch(e){status(String(e));/* Retrieve the unchanged session after a failed startup request. */try{await adopt(await invoke<Payload>('startup_document'),'preview');status(String(e))}catch(next){status(String(next))}}}else await adopt({docId:crypto.randomUUID(),text:'',name:'未命名',mixed:false,eol:'lf'},'preview')}
 void start();
 // Read-only diagnostics are bounded; browser-only fixtures never grant native paths.
 Object.defineProperty(window,'quickMdDiagnostics',{value:()=>({metrics:{...metrics},trace:[...trace],renderers:rendererStats(),mode,revision:session.revision,dirty:session.dirty,length:session.doc.length})});

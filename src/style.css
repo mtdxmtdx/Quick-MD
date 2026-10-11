@@ -28,7 +28,7 @@ button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outli
 [hidden]{display:none!important}
 
 /* Header: frosted bar over the page */
-header{position:absolute;inset:0 0 auto 0;z-index:10;height:var(--header);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;padding:0 16px;user-select:none;
+header{position:absolute;inset:0 0 auto 0;z-index:10;height:var(--header);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px;--pad:16px;padding:0 var(--pad);user-select:none;
  background:color-mix(in srgb,var(--chrome) 72%,transparent);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
 .identity{display:flex;gap:10px;align-items:center;min-width:0;font-size:13px}
 .logo{width:28px;height:28px;flex-shrink:0;margin-left:-4px}
@@ -51,7 +51,7 @@ header{position:absolute;inset:0 0 auto 0;z-index:10;height:var(--header);displa
  transition:opacity .2s}
 .lens::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 90% at 28% 0%,var(--lens-hi),transparent 55%);opacity:.55;mix-blend-mode:screen}
 .lens.ready{opacity:1}
-.actions{justify-self:end}
+.trailing{justify-self:end;align-self:stretch;display:flex;align-items:center;gap:8px;min-width:0}
 .actions button:hover,summary:hover,details[open] summary{background:var(--lens)}
 details{position:relative}
 summary{list-style:none;padding:5px 12px;border-radius:999px;font-size:13px;letter-spacing:1px}
@@ -62,6 +62,20 @@ summary::-webkit-details-marker{display:none}
 .menu button{display:flex;justify-content:space-between;gap:16px;width:100%;text-align:left;border-radius:9px}
 .menu button:hover{background:var(--lens)}
 kbd{font:inherit;font-size:12px;color:var(--muted)}
+
+/* Window caption buttons (desktop app only): the header doubles as the title bar */
+/* Actions plus caption buttons need ~300px; below this the centred layout would overlap the switch. */
+@media(max-width:860px){header:has(.window-controls:not([hidden])){grid-template-columns:minmax(0,1fr) auto auto}}
+.window-controls{display:flex;align-self:stretch;margin-right:calc(-1 * var(--pad))} /* flush with the window edge; header padding stays symmetric so the switch is centred */
+.window-controls button{width:46px;height:100%;padding:0;border-radius:0;font-family:"Segoe Fluent Icons","Segoe MDL2 Assets",sans-serif;font-size:10px;color:var(--ink)}
+.window-controls button:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.window-controls button:active{background:color-mix(in srgb,var(--ink) 14%,transparent)}
+#win-min::before{content:"\E921"}
+#win-max::before{content:"\E922"}
+#win-max[data-state=restore]::before{content:"\E923"}
+#win-close::before{content:"\E8BB"}
+#win-close:hover{background:#c42b1c;color:#fff}
+#win-close:active{background:#c42b1ccc;color:#fff}
 
 /* Page */
 main{min-width:0;min-height:0;position:relative}
@@ -138,10 +152,11 @@ dialog p{font-size:14px;line-height:1.7;color:var(--muted)}
 @media(prefers-color-scheme:dark){.render-error{color:#ffb09a}}
 
 /* Keep content overflow in its own scroller, never in the window grid. */
-nav,.actions,.logo,#dirty{flex-shrink:0}
+nav,.actions,.window-controls,.logo,#dirty{flex-shrink:0}
 #status,.cm-editor,.cm-content{min-width:0}
 @media(max-width:760px){
- header{gap:8px;padding-inline:10px;grid-template-columns:minmax(0,1fr) auto auto}
+ header{gap:8px;--pad:10px;grid-template-columns:minmax(0,1fr) auto auto}
+ .window-controls button{width:40px}
  .modes button{min-width:0;padding-inline:11px}
  .actions button,summary{padding-inline:9px}
  #preview{padding:calc(var(--header) + 24px) 20px 64px}
