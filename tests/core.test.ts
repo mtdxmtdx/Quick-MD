@@ -3,7 +3,7 @@
 import {describe,it,expect} from 'vitest';
 import {Text} from '@codemirror/state';
 import {DocumentSession,confirmReplacement} from '../src/document-session';
-import {active,sameIdentity,lineStarts,metrics,type Identity} from '../src/model';
+import {active,sameIdentity,lineStarts,metrics,countWords,type Identity} from '../src/model';
 import {parseMarkdown} from '../src/markdown';
 import {RenderClient,type WorkerLike} from '../src/render-client';
 const id=(n=1):Identity=>({docId:'a',revision:n,requestId:n,surfaceEpoch:1,themeEpoch:1});
@@ -23,6 +23,10 @@ describe('ranges and identities',()=>{
  it('all selections participate',()=>expect(active({from:10,to:12},[{from:0,to:0},{from:11,to:11}])).toBe(true));
  it('UTF16 offsets include surrogate pairs',()=>expect(lineStarts('😀\n中\n')).toEqual([0,3,5]));
  it.each(['docId','revision','requestId','surfaceEpoch','themeEpoch'] as const)('rejects changed %s',key=>{const other={...id(),[key]:key==='docId'?'b':2};expect(sameIdentity(id(),other)).toBe(false)});
+});
+describe('word count',()=>{
+ it('counts CJK characters singly and other scripts by word',()=>expect(countWords(['# 你好 world','abc中文 x2, **bold**','','かなカナ 한글'])).toBe(2+1+1+2+1+1+4+2));
+ it('reads a CodeMirror document line by line',()=>{const s=new DocumentSession();s.attach(Text.of(['one two','三']));expect(countWords(s.lines())).toBe(3)});
 });
 describe('Markdown and math grammar',()=>{
  it('four delimiter forms become syntax placeholders',()=>{const p=parseMarkdown('$x$ and \\(y\\)\n\n$$\nz^2\n$$\n\n\\[\na+b\n\\]\n');expect(p.complex.filter(c=>c.kind==='math')).toHaveLength(4)});
