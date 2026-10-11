@@ -26,7 +26,9 @@ function build(state:EditorState,items:Complex[]):DecorationSet {
  for(const item of items){if(item.to<=state.doc.length&&item.to>item.from&&!active(item,ranges)){replaced.push(item);decorations.push(Decoration.replace({widget:new RenderWidget(item),block:item.block}).range(item.from,item.to))}}
  const covered=(from:number,to:number)=>replaced.some(c=>from<c.to&&to>c.from);
  const hide=(from:number,to:number)=>{if(to>from&&!covered(from,to))decorations.push(Decoration.replace({}).range(from,to))};
- syntaxTree(state).iterate({enter(node){const {from,to,name}=node;if(covered(from,to))return false;
+ // Skip only nodes inside a widget; ancestors such as Document overlap every widget.
+ const inside=(from:number,to:number)=>replaced.some(c=>from>=c.from&&to<=c.to);
+ syntaxTree(state).iterate({enter(node){const {from,to,name}=node;if(inside(from,to))return false;
   const selected=active({from,to},ranges);
   if(/^ATXHeading[1-6]$/.test(name)){const line=state.doc.lineAt(from);decorations.push(Decoration.line({class:`live-heading h${name.at(-1)}`}).range(line.from));if(!selected){const match=/^#{1,6}\s+/.exec(state.doc.sliceString(from,to));if(match)hide(from,from+match[0].length)}}
   const styles:Record<string,string>={StrongEmphasis:'live-strong',Emphasis:'live-em',Strikethrough:'live-strike',InlineCode:'live-code',Link:'live-link'};
