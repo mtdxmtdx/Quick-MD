@@ -51,7 +51,7 @@ async function changeMode(next:Mode,force=false){
  for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));$('#mode-label').textContent={live:'编辑 · 即时预览',source:'源码 · Markdown',preview:'预览 · 只读'}[mode];
  if(mode!=='preview'){
   if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(doc.length>RENDER_LIMIT&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded);session.attach(editor.view.state.doc)}
-  if(ticket!==modeOperation)return;editor.modeTo(mode);preview.hidden=true;editorHost.hidden=false;editor.view.requestMeasure();if(scrolls[mode]!==undefined)editor.view.scrollDOM.scrollTop=scrolls[mode]!;else editor.restore(anchor.pos,anchor.offset);editor.view.focus();
+  editor.modeTo(mode);preview.hidden=true;editorHost.hidden=false;editor.view.requestMeasure();if(scrolls[mode]!==undefined)editor.view.scrollDOM.scrollTop=scrolls[mode]!;else editor.restore(anchor.pos,anchor.offset);editor.view.focus();
  }else {editor?.modeTo('preview');editorHost.hidden=true;preview.hidden=false;preview.focus()}
  await parse();
 }

@@ -28,7 +28,8 @@ async fn prepare_open(window:WebviewWindow,state:State<'_,Store>,doc_id:String)-
  origin(&window)?;let store=state.inner().clone();blocking(move||{let _op=store.operation.try_lock().map_err(|_|"文件操作正在进行")?;
  {let guard=store.session.lock().map_err(|e|e.to_string())?;check(&guard,&doc_id)?;}
  let Some(path)=rfd::FileDialog::new().add_filter("Markdown",&["md","markdown","txt"]).pick_file() else{return Ok(None)};
- let doc=document::read(path)?;let mut s=store.session.lock().map_err(|e|e.to_string())?;check(&s,&doc_id)?;
+ // Only commit_document/startup_document replace current, and both need the operation lock held here.
+ let doc=document::read(path)?;let mut s=store.session.lock().map_err(|e|e.to_string())?;
  let payload=doc.payload.clone();s.candidate=Some(doc);Ok(Some(payload))}).await
 }
 #[tauri::command]
@@ -50,9 +51,8 @@ async fn save_document(window:WebviewWindow,state:State<'_,Store>,doc_id:String,
  }else{None};(p,expected)
  }else{let d=old.unwrap();(d.path.clone(),Some(d.hash.clone()))};
  let bom=old.is_some_and(|d|d.bom);let eol=old.map(|d|d.eol.as_str()).unwrap_or("lf");let data=document::encode(&text,bom,eol)?;
- {let guard=store.session.lock().map_err(|e|e.to_string())?;check(&guard,&doc_id)?;}
  let hash=document::write(&path,&data,expected.as_deref())?;
- let mut s=store.session.lock().map_err(|e|e.to_string())?;check(&s,&doc_id)?;
+ let mut s=store.session.lock().map_err(|e|e.to_string())?;
  let name=path.file_name().unwrap_or_default().to_string_lossy().into_owned();
  s.current.disk=Some(document::Disk{path,hash,bom,eol:eol.into(),mixed:false});s.current.payload.name=name.clone();s.current.payload.mixed=false;
  Ok(Some(Saved{doc_id,revision,name}))}).await
