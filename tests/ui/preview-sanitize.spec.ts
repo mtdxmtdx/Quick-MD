@@ -3,7 +3,7 @@
 import {test,expect} from '@playwright/test';
 import {readFileSync,writeFileSync} from 'node:fs';
 test('batch sanitization preserves complete block structure and security',async({page})=>{
- await page.goto('/');await page.waitForFunction(()=>!!(window as any).mdLiteTest);
+ await page.goto('/');await page.waitForFunction(()=>!!(window as any).quickMdTest);
  const fixtures=['plain-102400.md','plain-1048576.md','basic.md','math.md','diagrams.md','security.md'];
  const results=[];
  for(const file of fixtures){
