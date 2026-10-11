@@ -8,7 +8,7 @@ export function cleanSvg(svg:string):string {
  const clean=DOMPurify.sanitize(svg,{USE_PROFILES:{svg:true,svgFilters:true},FORBID_TAGS:['foreignObject','script','a','image'],FORBID_ATTR:['href','xlink:href']});
  const template=document.createElement('template');template.innerHTML=clean;
  // Keep local marker/clip references, never network URLs or CSS imports.
- for(const node of template.content.querySelectorAll('*')){for(const attr of [...node.attributes]){if(/url\s*\(/i.test(attr.value)&&!/^(?:[^u]|u(?!rl))*$/i.test(attr.value)){const urls=[...attr.value.matchAll(/url\s*\(([^)]*)\)/gi)];if(urls.some(m=>!/^['"]?#[\w-]+['"]?$/.test(m[1].trim())))node.removeAttribute(attr.name)}}}
+ for(const node of template.content.querySelectorAll('*')){for(const attr of [...node.attributes]){if([...attr.value.matchAll(/url\s*\(([^)]*)\)/gi)].some(m=>!/^['"]?#[\w-]+['"]?$/.test(m[1].trim())))node.removeAttribute(attr.name)}}
  for(const style of template.content.querySelectorAll('style')){if(/@import|url\s*\(\s*['"]?(?!#)/i.test(style.textContent??''))style.remove()}
  return template.innerHTML;
 }

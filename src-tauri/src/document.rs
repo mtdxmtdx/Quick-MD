@@ -53,10 +53,7 @@ pub fn write(path:&Path,data:&[u8],expected:Option<&str>)->Result<String,String>
     write_staged(path,data,expected,|_|Ok(()))
 }
 fn write_staged(path:&Path,data:&[u8],expected:Option<&str>,hook:impl Fn(&str)->Result<(),String>)->Result<String,String> {
-    if let Some(hash)=expected {
-        if fingerprint(&bytes(path)?)!=hash {return Err("磁盘文件已被外部修改；请另存为或重新打开".into())}
-        if fs::metadata(path).map_err(|e|e.to_string())?.permissions().readonly() {return Err("目标为只读文件；请另存为".into())}
-    } else if path.exists() { return Err("目标已由其他进程创建；请重新选择".into()); }
+    if expected.is_some()&&fs::metadata(path).map_err(|e|e.to_string())?.permissions().readonly() {return Err("目标为只读文件；请另存为".into())}
     let parent=path.parent().ok_or("目标没有父目录")?;
     let mut temp=NamedTempFile::new_in(parent).map_err(|e|format!("创建临时文件失败：{e}"))?;
     hook("created")?;
@@ -64,9 +61,9 @@ fn write_staged(path:&Path,data:&[u8],expected:Option<&str>,hook:impl Fn(&str)->
     hook("written")?;
     temp.as_file().sync_all().map_err(|e|format!("同步临时文件失败：{e}"))?;
     hook("synced")?;
-    // Recheck immediately before replacement; new targets use no-clobber persist.
+    // Check right before replacement only; new targets use no-clobber persist.
     if let Some(hash)=expected {
-        if fingerprint(&bytes(path)?)!=hash {return Err("保存期间目标已变化；未执行替换".into())}
+        if fingerprint(&bytes(path)?)!=hash {return Err("磁盘文件已被外部修改；未执行替换，请另存为或重新打开".into())}
         temp.persist(path).map_err(|e|format!("替换失败，请检查目标后另存为：{}",e.error))?;
     } else {temp.persist_noclobber(path).map_err(|e|format!("目标已存在或创建失败：{}",e.error))?;}
     Ok(fingerprint(data))
