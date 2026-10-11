@@ -10,7 +10,7 @@ pub const LIMIT: usize = 20 * 1024 * 1024;
 pub struct Disk { pub path: PathBuf, pub hash: String, pub bom: bool, pub eol: String, pub mixed: bool }
 #[derive(Clone, Serialize, Debug)]
 #[serde(rename_all="camelCase")]
-pub struct Payload { pub doc_id: String, pub text: String, pub name: String, pub mixed: bool, pub eol: String }
+pub struct Payload { pub doc_id: String, pub text: String, pub name: String, pub mixed: bool, pub eol: String, pub bom: bool }
 #[derive(Clone)]
 pub struct Document { pub payload: Payload, pub disk: Option<Disk> }
 pub fn fingerprint(bytes: &[u8]) -> String { format!("{:x}", Sha256::digest(bytes)) }
@@ -34,13 +34,13 @@ pub fn decode(data: &[u8]) -> Result<(String, bool, String, bool), String> {
     Ok((s.replace("\r\n","\n").replace('\r',"\n"),bom,eol.into(),mixed))
 }
 pub fn blank() -> Document {
-    Document { payload:Payload {doc_id:uuid::Uuid::new_v4().to_string(),text:String::new(),name:"未命名".into(),mixed:false,eol:"lf".into()},disk:None }
+    Document { payload:Payload {doc_id:uuid::Uuid::new_v4().to_string(),text:String::new(),name:"未命名".into(),mixed:false,eol:"lf".into(),bom:false},disk:None }
 }
 pub fn read(path: PathBuf) -> Result<Document,String> {
     let ext=path.extension().and_then(|s|s.to_str()).unwrap_or("").to_ascii_lowercase();
     if !["md","markdown","txt"].contains(&ext.as_str()) { return Err("请选择 .md、.markdown 或 .txt 文件".into()); }
     let data=bytes(&path)?; let (text,bom,eol,mixed)=decode(&data)?;
-    Ok(Document {payload:Payload{doc_id:uuid::Uuid::new_v4().to_string(),text,name:path.file_name().unwrap_or_default().to_string_lossy().into_owned(),mixed,eol:eol.clone()},disk:Some(Disk {path,hash:fingerprint(&data),bom,eol,mixed})})
+    Ok(Document {payload:Payload{doc_id:uuid::Uuid::new_v4().to_string(),text,name:path.file_name().unwrap_or_default().to_string_lossy().into_owned(),mixed,eol:eol.clone(),bom},disk:Some(Disk {path,hash:fingerprint(&data),bom,eol,mixed})})
 }
 pub fn encode(text:&str,bom:bool,eol:&str)->Result<Vec<u8>,String> {
     if text.len()>LIMIT {return Err("保存内容超过 20 MiB".into())}

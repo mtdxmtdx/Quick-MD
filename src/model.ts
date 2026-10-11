@@ -12,6 +12,10 @@ export function active(span:Span,ranges:readonly Span[]):boolean {
 }
 export function sameIdentity(a:Identity,b:Identity):boolean {return a.docId===b.docId&&a.revision===b.revision&&a.requestId===b.requestId&&a.surfaceEpoch===b.surfaceEpoch&&a.themeEpoch===b.themeEpoch}
 export function lineStarts(s:string):number[]{const out=[0];for(let i=0;i<s.length;i++)if(s.charCodeAt(i)===10)out.push(i+1);return out}
+// Each CJK character counts as one; other scripts count by runs of letters and digits.
+const cjk='\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}\\p{Script=Hangul}';
+const wordPattern=new RegExp(`[${cjk}]|(?:(?![${cjk}])[\\p{L}\\p{N}])+`,'gu');
+export function countWords(lines:Iterable<string>):number{let n=0;for(const line of lines)for(const m of line.matchAll(wordPattern))n++;return n}
 export const metrics={parseQueued:0,parseStarted:0,parseFinished:0,parseCommitted:0,serialized:0,queueMax:0,diagramQueueMax:0,diagramStarted:0,editorCreated:0,katexLoaded:0,mermaidLoaded:0};
 export const trace:Array<{event:string;at:number;identity?:Identity}>=[];
 export function record(event:string,identity?:Identity){trace.push({event,at:performance.now(),identity});if(trace.length>256)trace.shift()}

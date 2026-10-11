@@ -4,7 +4,7 @@ import {invoke} from '@tauri-apps/api/core';
 import {getCurrentWindow} from '@tauri-apps/api/window';
 import {DocumentSession,confirmReplacement,type Payload} from './document-session';
 import {RenderClient} from './render-client';
-import {metrics,record,trace,RENDER_LIMIT,sameIdentity,type Identity,type Mode,type Parsed} from './model';
+import {metrics,record,trace,RENDER_LIMIT,countWords,sameIdentity,type Identity,type Mode,type Parsed} from './model';
 import {cleanFragment} from './security';
 import {hydrate,rendererStats} from './hydrate';
 import type {Editor} from './editor';
@@ -17,18 +17,33 @@ let disposeHydration=()=>{},timer:ReturnType<typeof setTimeout>|undefined;
 let modeOperation=0,fileBusy=false,pendingSave=false;
 const scrolls:Partial<Record<Mode,number>>={};let anchor={pos:0,offset:0};
 const deferred:Array<()=>void>=[];
-const session=new DocumentSession(()=>{$('#filename').textContent=session.name;$('#dirty').textContent=session.dirty?'●':'';document.title=`${session.dirty?'● ':''}${session.name} — Quick MD`});
+const session=new DocumentSession(()=>{$('#filename').textContent=session.name;$('#dirty').textContent=session.dirty?'未保存':'';docInfo();document.title=`${session.dirty?'● ':''}${session.name} — Quick MD`});
 const native='__TAURI_INTERNALS__' in window;
+// The translucent header overlays the page; visible content starts below it.
+function viewTop(){return $('header').getBoundingClientRect().bottom}
 function status(message:string){$('#status').textContent=message}
+// Footer facts: encoding, line endings, cursor (editor modes) and a debounced word count.
+let words:number|undefined,countTimer:ReturnType<typeof setTimeout>|undefined;
+function docInfo(){const cursor=mode!=='preview'&&editor?editor.cursor():undefined;$('#doc-info').textContent=[session.bom?'UTF-8 BOM':'UTF-8',session.mixed?'混合换行':session.eol.toUpperCase(),cursor&&`行 ${cursor.line}，列 ${cursor.column}`,words!==undefined&&`${words.toLocaleString('zh-CN')} 字`].filter(Boolean).join(' · ')}
+function countLater(){clearTimeout(countTimer);countTimer=setTimeout(()=>{words=session.doc.length>RENDER_LIMIT?undefined:countWords(session.lines());docInfo()},300)}
+const modes=$<HTMLElement>('nav.modes'),lens=$<HTMLElement>('.lens');
+// The lens slides with a fixed small overshoot and squash, so every switch moves the same way.
+// Use `translate`, not `transform`: transform is applied after `scale`, which would stretch the slide distance too.
+let lensX:number|undefined;
+function placeLens(animate=false){const active=modes.querySelector<HTMLElement>('[aria-pressed=true]');if(!active)return;const x=active.offsetLeft,from=lensX;lensX=x;lens.style.width=`${active.offsetWidth}px`;lens.style.translate=`${x}px 0`;lens.classList.add('ready');
+ if(!animate||from===undefined||from===x||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const past=x+Math.sign(x-from)*3;
+ lens.animate([{translate:`${from}px 0`},{translate:`${past}px 0`,offset:.65},{translate:`${x}px 0`}],{duration:380,easing:'cubic-bezier(.3,.7,.4,1)'});
+ lens.animate([{scale:'1 1'},{scale:'1.08 .9',offset:.35},{scale:'.98 1.03',offset:.7},{scale:'1 1'}],{duration:380,easing:'ease-out'})}
+new ResizeObserver(()=>placeLens()).observe(modes);
 function identity():Identity{return {docId:session.docId,revision:session.revision,requestId,surfaceEpoch:epoch,themeEpoch}}
 function current(id:Identity){return sameIdentity(id,identity())}
 function afterComposition(fn:()=>void){if(editor?.composing)deferred.push(fn);else fn()}
 function compositionEnded(){const todo=deferred.splice(0);for(const fn of todo)fn();schedule()}
 function invalidate(){epoch++;clearTimeout(timer);client?.cancel();disposeHydration();disposeHydration=()=>{}}
-function previewAnchor(){const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const top=preview.getBoundingClientRect().top;const first=nodes.find(n=>n.getBoundingClientRect().bottom>=top);return first?{pos:Number(first.dataset.from),offset:first.getBoundingClientRect().top-top}:anchor}
+function previewAnchor(){const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const top=viewTop();const first=nodes.find(n=>n.getBoundingClientRect().bottom>=top);return first?{pos:Number(first.dataset.from),offset:first.getBoundingClientRect().top-top}:anchor}
 function renderPreview(result:Parsed){disposeHydration();const html=result.blocks.map(block=>`<section data-from="${block.from}">${block.html}</section>`).join('');preview.replaceChildren(cleanFragment(html));if(!result.blocks.length){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='<span class="eyebrow">QUICK MD / LOCAL READER</span><h1>让文字，回到中心。</h1><p>打开 Markdown 文件开始阅读，<br>或新建一页，记录此刻的想法。</p>';preview.append(empty)}
  const id=identity();disposeHydration=hydrate(preview,()=>mode==='preview'&&current(id));requestAnimationFrame(()=>requestAnimationFrame(()=>{if(current(id)&&mode==='preview')record('previewPaint',id)}));
- if(scrolls.preview!==undefined)preview.scrollTop=scrolls.preview;else {const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const node=nodes.find((n,i)=>Number(n.dataset.from)<=anchor.pos&&(!nodes[i+1]||Number(nodes[i+1].dataset.from)>anchor.pos));if(node)preview.scrollTop+=node.getBoundingClientRect().top-preview.getBoundingClientRect().top-anchor.offset}
+ if(scrolls.preview!==undefined)preview.scrollTop=scrolls.preview;else {const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const node=nodes.find((n,i)=>Number(n.dataset.from)<=anchor.pos&&(!nodes[i+1]||Number(nodes[i+1].dataset.from)>anchor.pos));if(node&&anchor.pos>0)preview.scrollTop+=node.getBoundingClientRect().top-viewTop()-anchor.offset}
 }
 async function parse(){if(mode==='source'||editor?.composing||session.doc.length>RENDER_LIMIT)return;
  requestId++;const id=identity();if(parsed?.docId===id.docId&&parsed.revision===id.revision){if(mode==='live')editor?.complex(parsed.result.complex);else renderPreview(parsed.result);return}
@@ -48,14 +63,14 @@ async function changeMode(next:Mode,force=false){
  // Preview is rebuilt from the cached parse on return; retaining its hidden DOM
  // only inflates memory and first-editor style/layout work for large documents.
  if(mode!=='preview'){preview.replaceChildren();preview.hidden=true}
- for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));$('#mode-label').textContent={live:'编辑 · 即时预览',source:'源码 · Markdown',preview:'预览 · 只读'}[mode];
+ for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));placeLens(true);editorHost.dataset.mode=mode;docInfo();
  if(mode!=='preview'){
-  if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(doc.length>RENDER_LIMIT&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded);session.attach(editor.view.state.doc)}
-  editor.modeTo(mode);preview.hidden=true;editorHost.hidden=false;editor.view.requestMeasure();if(scrolls[mode]!==undefined)editor.view.scrollDOM.scrollTop=scrolls[mode]!;else editor.restore(anchor.pos,anchor.offset);editor.view.focus();
+  if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(doc.length>RENDER_LIMIT&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();countLater();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded,docInfo);session.attach(editor.view.state.doc)}
+  editor.modeTo(mode);preview.hidden=true;editorHost.hidden=false;editor.view.requestMeasure();if(scrolls[mode]!==undefined)editor.view.scrollDOM.scrollTop=scrolls[mode]!;else if(anchor.pos>0)editor.restore(anchor.pos,anchor.offset);editor.view.focus();
  }else {editor?.modeTo('preview');editorHost.hidden=true;preview.hidden=false;preview.focus()}
  await parse();
 }
-async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'本地文档 · 不联网');await changeMode(initialMode,true)}
+async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);words=undefined;countLater();status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'本地文档 · 不联网');await changeMode(initialMode,true)}
 function ask(title:string,message:string,choices:Array<[string,string]>):Promise<string>{const dialog=$<HTMLDialogElement>('#confirm');$('#confirm-title').textContent=title;$('#confirm-text').textContent=message;const actions=$('#confirm-actions');actions.replaceChildren();return new Promise(resolve=>{const finish=(value:string)=>{dialog.close();dialog.oncancel=null;resolve(value);if(mode!=='preview')editor?.view.focus()};for(const [value,label] of choices){const button=document.createElement('button');button.textContent=label;button.onclick=()=>finish(value);actions.append(button)}dialog.oncancel=e=>{e.preventDefault();finish('cancel')};dialog.showModal()})}
 async function save(saveAs=false):Promise<boolean>{
  if(!saveAs&&!session.exactDirty()&&session.name!=='未命名')return true;
@@ -83,7 +98,10 @@ async function fileAction(action:'open'|'new'|'save'|'save-as'|'close'){
  }catch(e){status(String(e))}finally{editorHost.inert=false;if(mode!=='preview'&&!$<HTMLDialogElement>('#confirm').open)editor?.view.focus();fileBusy=false;if(pendingSave){pendingSave=false;void fileAction('save')}}
 }
 for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.onclick=()=>{void changeMode(button.dataset.mode as Mode).catch(e=>status(String(e)))};
-for(const action of ['open','new','save','save-as'] as const)$('#'+action).onclick=()=>void fileAction(action);
+for(const action of ['open','new','save','save-as'] as const)$('#'+action).onclick=()=>{more.open=false;void fileAction(action)};
+const more=$<HTMLDetailsElement>('.actions details');
+document.addEventListener('pointerdown',e=>{if(more.open&&!more.contains(e.target as Node))more.open=false});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&more.open){more.open=false;more.querySelector('summary')!.focus()}});
 document.addEventListener('keydown',e=>{if(e.isComposing||editor?.composing||(!e.ctrlKey&&!e.metaKey)||e.altKey)return;const key=e.key.toLowerCase();if(['1','2','3'].includes(key)){e.preventDefault();void changeMode(({1:'live',2:'source',3:'preview'} as Record<string,Mode>)[key])}else if(['n','o','s'].includes(key)){e.preventDefault();void fileAction(key==='n'?'new':key==='o'?'open':e.shiftKey?'save-as':'save')}});
 for(const event of ['click','auxclick','dblclick'])document.addEventListener(event,e=>{if((e.target as Element).closest('a'))e.preventDefault()},true);
 document.addEventListener('dragover',e=>e.preventDefault());document.addEventListener('drop',e=>e.preventDefault());
