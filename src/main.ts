@@ -30,11 +30,23 @@ const modes=$<HTMLElement>('nav.modes'),lens=$<HTMLElement>('.lens');
 // The lens slides with a fixed small overshoot and squash, so every switch moves the same way.
 // Use `translate`, not `transform`: transform is applied after `scale`, which would stretch the slide distance too.
 let lensX:number|undefined;
-function placeLens(animate=false){const active=modes.querySelector<HTMLElement>('[aria-pressed=true]');if(!active)return;const x=active.offsetLeft,from=lensX;lensX=x;lens.style.width=`${active.offsetWidth}px`;lens.style.translate=`${x}px 0`;lens.classList.add('ready');
+function placeLens(animate=false){const active=modes.querySelector<HTMLElement>('[aria-pressed=true]');if(!active||lensDrag?.moved)return;const x=active.offsetLeft,from=lensX;lensX=x;lens.style.width=`${active.offsetWidth}px`;lens.style.translate=`${x}px 0`;lens.classList.add('ready');
  if(!animate||from===undefined||from===x||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const past=x+Math.sign(x-from)*3;
  lens.animate([{translate:`${from}px 0`},{translate:`${past}px 0`,offset:.65},{translate:`${x}px 0`}],{duration:380,easing:'cubic-bezier(.3,.7,.4,1)'});
  lens.animate([{scale:'1 1'},{scale:'1.08 .9',offset:.35},{scale:'.98 1.03',offset:.7},{scale:'1 1'}],{duration:380,easing:'ease-out'})}
 new ResizeObserver(()=>placeLens()).observe(modes);
+// The lens can be picked up and dragged; on release it snaps to the mode under its centre.
+let lensDrag:{pointer:number;startX:number;origin:number;moved:boolean}|undefined,suppressClick=false;
+function modeButtons(){return [...modes.querySelectorAll<HTMLButtonElement>('[data-mode]')]}
+modes.addEventListener('pointerdown',e=>{const button=(e.target as Element).closest<HTMLButtonElement>('[data-mode]');if(e.button!==0||button?.getAttribute('aria-pressed')!=='true'||lensX===undefined)return;lensDrag={pointer:e.pointerId,startX:e.clientX,origin:lensX,moved:false};modes.setPointerCapture(e.pointerId)});
+modes.addEventListener('pointermove',e=>{if(!lensDrag||e.pointerId!==lensDrag.pointer)return;const dx=e.clientX-lensDrag.startX;if(!lensDrag.moved){if(Math.abs(dx)<4)return;lensDrag.moved=true;for(const a of lens.getAnimations())a.cancel();modes.classList.add('dragging')}
+ const buttons=modeButtons(),last=buttons.at(-1)!,x=Math.min(last.offsetLeft+last.offsetWidth-lens.offsetWidth,Math.max(buttons[0].offsetLeft,lensDrag.origin+dx));lensX=x;lens.style.translate=`${x}px 0`;
+ const centre=x+lens.offsetWidth/2;for(const b of buttons)b.classList.toggle('under-lens',centre>=b.offsetLeft&&centre<b.offsetLeft+b.offsetWidth)});
+function endLensDrag(e:PointerEvent){if(!lensDrag||e.pointerId!==lensDrag.pointer)return;const moved=lensDrag.moved;lensDrag=undefined;modes.classList.remove('dragging');if(!moved)return;
+ const target=modes.querySelector<HTMLButtonElement>('.under-lens')?.dataset.mode as Mode|undefined;for(const b of modeButtons())b.classList.remove('under-lens');
+ suppressClick=true;setTimeout(()=>suppressClick=false,0);if(target&&target!==mode)void changeMode(target).catch(err=>status(String(err)));else placeLens(true)}
+modes.addEventListener('pointerup',endLensDrag);modes.addEventListener('pointercancel',endLensDrag);
+modes.addEventListener('click',e=>{if(suppressClick){e.preventDefault();e.stopPropagation()}},true);
 function identity():Identity{return {docId:session.docId,revision:session.revision,requestId,surfaceEpoch:epoch,themeEpoch}}
 function current(id:Identity){return sameIdentity(id,identity())}
 function afterComposition(fn:()=>void){if(editor?.composing)deferred.push(fn);else fn()}

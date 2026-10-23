@@ -4,7 +4,7 @@
 :root{
  --paper:#f6f4ef;--chrome:#eeebe4;--ink:#24221e;--muted:#6c675e;--dim:#aaa397;--line:#e2ddd2;--accent:#2f4c7e;--code:#ece8df;--selection:#d3ddef;
  --glass:rgba(255,255,255,.42);--glass-edge:rgba(255,255,255,.75);--glass-rim:rgba(36,34,30,.10);--glass-shadow:rgba(36,34,30,.16);
- --lens:rgba(255,255,255,.62);--lens-hi:rgba(255,255,255,.95);--lens-lo:rgba(36,34,30,.10);
+ --lens:rgba(255,255,255,.62);--lens-fill:rgba(255,255,255,.14);--lens-hi:rgba(255,255,255,.95);--lens-lo:rgba(36,34,30,.10);
  --font-ui:"Segoe UI Variable Text","Segoe UI","Microsoft YaHei UI",sans-serif;
  --font-body:"Segoe UI Variable Text","Segoe UI","Microsoft YaHei UI",sans-serif;
  --font-head:"Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Segoe UI Variable Display","Microsoft YaHei UI",serif;
@@ -16,7 +16,7 @@
 @media(prefers-color-scheme:dark){:root{
  --paper:#1c1b19;--chrome:#161513;--ink:#e7e1d6;--muted:#a39c8f;--dim:#6a645a;--line:#34312c;--accent:#a3b8e0;--code:#26241f;--selection:#34446a;
  --glass:rgba(255,255,255,.07);--glass-edge:rgba(255,255,255,.16);--glass-rim:rgba(0,0,0,.35);--glass-shadow:rgba(0,0,0,.45);
- --lens:rgba(255,255,255,.14);--lens-hi:rgba(255,255,255,.38);--lens-lo:rgba(0,0,0,.30);
+ --lens:rgba(255,255,255,.14);--lens-fill:rgba(255,255,255,.07);--lens-hi:rgba(255,255,255,.38);--lens-lo:rgba(0,0,0,.30);
  --syntax-meta:#a39c8f;--syntax-keyword:#a3b8e0;--syntax-value:#d6b47a;--syntax-string:#e0a08f;--syntax-link:#a3b8e0;--syntax-comment:#9a9283;--syntax-error:#ff9c8a;
 }}
 *{box-sizing:border-box}
@@ -40,16 +40,23 @@ header{position:absolute;inset:0 0 auto 0;z-index:10;height:var(--header);displa
 .glass{position:relative;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:var(--glass);
  backdrop-filter:blur(14px) saturate(1.8);
  box-shadow:inset 0 0 0 1px var(--glass-edge),inset 0 1px 1px var(--lens-hi),inset 0 -1px 1px var(--glass-rim),0 6px 22px -10px var(--glass-shadow),0 0 0 .5px var(--glass-rim)}
-.modes button{position:relative;z-index:1;min-width:60px;color:var(--muted);transition:color .2s}
+.modes{touch-action:none}
+.modes button{position:relative;z-index:1;min-width:60px;color:var(--muted);transition:color .2s;padding-block:5px 7px} /* CJK glyphs sit low in the line box; lift them to the optical centre */
+.modes button[aria-pressed=true]{cursor:grab}
+.modes.dragging,.modes.dragging button{cursor:grabbing}
+.modes.dragging button[aria-pressed=true]{color:var(--muted);font-weight:400}
+.modes.dragging button.under-lens{color:var(--ink);font-weight:600}
 .modes button:hover{color:var(--ink)}
 .modes button[aria-pressed=true]{color:var(--ink);font-weight:600}
-.lens{position:absolute;top:4px;bottom:4px;left:0;border-radius:999px;opacity:0;pointer-events:none;
- background:var(--lens);
- backdrop-filter:blur(2px) saturate(1.7) brightness(1.05);
- backdrop-filter:url(#glass-refract) blur(1px) saturate(1.7) brightness(1.05);
+.lens{position:absolute;z-index:2;top:4px;bottom:4px;left:0;border-radius:999px;opacity:0;pointer-events:none;
+ /* Above the labels: they are seen through the glass, clear in the middle and bent at the rim */
+ background:var(--lens-fill);
+ backdrop-filter:saturate(1.6);
+ backdrop-filter:url(#glass-refract) saturate(1.6);
  box-shadow:inset 0 0 0 1px var(--glass-edge),inset 0 1.5px 1px var(--lens-hi),inset 0 -1.5px 2px var(--lens-lo),0 3px 10px -3px var(--glass-shadow);
- transition:opacity .2s}
-.lens::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 90% at 28% 0%,var(--lens-hi),transparent 55%);opacity:.55;mix-blend-mode:screen}
+ transition:opacity .2s,scale .18s ease-out}
+.modes.dragging .lens{scale:1.08 1.16}
+.lens::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(120% 90% at 50% 0%,var(--lens-hi),transparent 55%);opacity:.35;mix-blend-mode:screen}
 .lens.ready{opacity:1}
 .trailing{justify-self:end;align-self:stretch;display:flex;align-items:center;gap:8px;min-width:0}
 .actions button:hover,summary:hover,details[open] summary{background:var(--lens)}
