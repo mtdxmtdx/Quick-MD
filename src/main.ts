@@ -4,9 +4,9 @@ import {invoke} from '@tauri-apps/api/core';
 import {getCurrentWindow} from '@tauri-apps/api/window';
 import {DocumentSession,confirmReplacement,type Payload} from './document-session';
 import {RenderClient} from './render-client';
-import {metrics,record,trace,RENDER_LIMIT,countWords,sameIdentity,type Identity,type Mode,type Parsed} from './model';
+import {metrics,record,trace,overRenderLimit,countWords,sameIdentity,type Identity,type Mode,type Parsed} from './model';
 import {cleanFragment} from './security';
-import {hydrate,rendererStats} from './hydrate';
+import {hydrate,rendererStats,imageHost,loadWaitingImages} from './hydrate';
 import type {Editor} from './editor';
 import './style.css';
 const $=<T extends HTMLElement>(selector:string)=>document.querySelector<T>(selector)!;
@@ -19,13 +19,18 @@ const scrolls:Partial<Record<Mode,number>>={};let anchor={pos:0,offset:0};
 const deferred:Array<()=>void>=[];
 const session=new DocumentSession(()=>{$('#filename').textContent=session.name;$('#dirty').textContent=session.dirty?'未保存':'';docInfo();document.title=`${session.dirty?'● ':''}${session.name} — Quick MD`});
 const native='__TAURI_INTERNALS__' in window;
+// Network images stay off until asked for, one document at a time.
+let networkImages=false;
+imageHost.remote=()=>networkImages;
+if(native)imageHost.read=path=>invoke<ArrayBuffer>('read_image',{docId:session.docId,path});
+function networkPrompt(count:number){const button=$<HTMLButtonElement>('#load-remote');button.hidden=networkImages||!count;button.textContent=`加载 ${count} 张网络图片`}
 // The translucent header overlays the page; visible content starts below it.
 function viewTop(){return $('header').getBoundingClientRect().bottom}
 function status(message:string){$('#status').textContent=message}
 // Footer facts: encoding, line endings, cursor (editor modes) and a debounced word count.
 let words:number|undefined,countTimer:ReturnType<typeof setTimeout>|undefined;
 function docInfo(){const cursor=mode!=='preview'&&editor?editor.cursor():undefined;$('#doc-info').textContent=[session.bom?'UTF-8 BOM':'UTF-8',session.mixed?'混合换行':session.eol.toUpperCase(),cursor&&`行 ${cursor.line}，列 ${cursor.column}`,words!==undefined&&`${words.toLocaleString('zh-CN')} 字`].filter(Boolean).join(' · ')}
-function countLater(){clearTimeout(countTimer);countTimer=setTimeout(()=>{words=session.doc.length>RENDER_LIMIT?undefined:countWords(session.lines());docInfo()},300)}
+function countLater(){clearTimeout(countTimer);countTimer=setTimeout(()=>{words=overRenderLimit(session.doc)?undefined:countWords(session.lines());docInfo()},300)}
 const modes=$<HTMLElement>('nav.modes'),lens=$<HTMLElement>('.lens');
 // The lens slides with a fixed small overshoot and squash, so every switch moves the same way.
 // Use `translate`, not `transform`: transform is applied after `scale`, which would stretch the slide distance too.
@@ -57,17 +62,17 @@ function renderPreview(result:Parsed){disposeHydration();const html=result.block
  const id=identity();disposeHydration=hydrate(preview,()=>mode==='preview'&&current(id));requestAnimationFrame(()=>requestAnimationFrame(()=>{if(current(id)&&mode==='preview')record('previewPaint',id)}));
  if(scrolls.preview!==undefined)preview.scrollTop=scrolls.preview;else {const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const node=nodes.find((n,i)=>Number(n.dataset.from)<=anchor.pos&&(!nodes[i+1]||Number(nodes[i+1].dataset.from)>anchor.pos));if(node&&anchor.pos>0)preview.scrollTop+=node.getBoundingClientRect().top-viewTop()-anchor.offset}
 }
-async function parse(){if(mode==='source'||editor?.composing||session.doc.length>RENDER_LIMIT)return;
- requestId++;const id=identity();if(parsed?.docId===id.docId&&parsed.revision===id.revision){if(mode==='live')editor?.complex(parsed.result.complex);else renderPreview(parsed.result);return}
+async function parse(){if(mode==='source'||editor?.composing||overRenderLimit(session.doc))return;
+ requestId++;const id=identity();if(parsed?.docId===id.docId&&parsed.revision===id.revision){networkPrompt(parsed.result.remoteImages);if(mode==='live')editor?.complex(parsed.result.complex);else renderPreview(parsed.result);return}
  client??=new RenderClient(new Worker(new URL('./render.worker.ts',import.meta.url),{type:'module'}));
  const result=await client.request(id,session.text());if(!result||!current(id)||editor?.composing)return;
- parsed={docId:id.docId,revision:id.revision,result};metrics.parseCommitted++;record('renderCommitted',id);
+ parsed={docId:id.docId,revision:id.revision,result};networkPrompt(result.remoteImages);metrics.parseCommitted++;record('renderCommitted',id);
  if(mode==='preview')renderPreview(result);else editor?.complex(result.complex);
 }
 function schedule(){clearTimeout(timer);if(mode!=='source'&&!editor?.composing)timer=setTimeout(()=>void parse(),120)}
 async function changeMode(next:Mode,force=false){
  if(editor?.composing){deferred.push(()=>void changeMode(next,force));return}
- if(session.doc.length>RENDER_LIMIT&&next!=='source'){next='source';status('文档超过渲染阈值，已切换源码；正文完整保留。')}
+ if(overRenderLimit(session.doc)&&next!=='source'){next='source';status('文档超过渲染阈值，已切换源码；正文完整保留。')}
  if(mode===next&&!force)return;
  const ticket=++modeOperation;
  if(!force){if(mode==='preview'){scrolls.preview=preview.scrollTop;anchor=previewAnchor()}else if(editor){scrolls[mode]=editor.view.scrollDOM.scrollTop;anchor=editor.anchor()}}
@@ -77,12 +82,12 @@ async function changeMode(next:Mode,force=false){
  if(mode!=='preview'){preview.replaceChildren();preview.hidden=true}
  for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));placeLens(true);editorHost.dataset.mode=mode;docInfo();
  if(mode!=='preview'){
-  if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(doc.length>RENDER_LIMIT&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();countLater();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded,docInfo);session.attach(editor.view.state.doc)}
+  if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(overRenderLimit(doc)&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();countLater();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded,docInfo);session.attach(editor.view.state.doc)}
   editor.modeTo(mode);preview.hidden=true;editorHost.hidden=false;editor.view.requestMeasure();if(scrolls[mode]!==undefined)editor.view.scrollDOM.scrollTop=scrolls[mode]!;else if(anchor.pos>0)editor.restore(anchor.pos,anchor.offset);editor.view.focus();
  }else {editor?.modeTo('preview');editorHost.hidden=true;preview.hidden=false;preview.focus()}
  await parse();
 }
-async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);words=undefined;countLater();status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'');await changeMode(initialMode,true)}
+async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);words=undefined;countLater();networkImages=false;networkPrompt(0);status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'');await changeMode(initialMode,true)}
 function ask(title:string,message:string,choices:Array<[string,string]>):Promise<string>{const dialog=$<HTMLDialogElement>('#confirm');$('#confirm-title').textContent=title;$('#confirm-text').textContent=message;const actions=$('#confirm-actions');actions.replaceChildren();return new Promise(resolve=>{const finish=(value:string)=>{dialog.close();dialog.oncancel=null;resolve(value);if(mode!=='preview')editor?.view.focus()};for(const [value,label] of choices){const button=document.createElement('button');button.textContent=label;button.onclick=()=>finish(value);actions.append(button)}dialog.oncancel=e=>{e.preventDefault();finish('cancel')};dialog.showModal()})}
 async function save(saveAs=false):Promise<boolean>{
  if(!saveAs&&!session.exactDirty()&&session.name!=='未命名')return true;
@@ -111,6 +116,7 @@ async function fileAction(action:'open'|'new'|'save'|'save-as'|'close'){
 }
 for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.onclick=()=>{void changeMode(button.dataset.mode as Mode).catch(e=>status(String(e)))};
 for(const action of ['open','new','save','save-as'] as const)$('#'+action).onclick=()=>{more.open=false;void fileAction(action)};
+$('#load-remote').onclick=()=>{networkImages=true;networkPrompt(0);loadWaitingImages()};
 const more=$<HTMLDetailsElement>('.actions details');
 document.addEventListener('pointerdown',e=>{if(more.open&&!more.contains(e.target as Node))more.open=false});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&more.open){more.open=false;more.querySelector('summary')!.focus()}});
