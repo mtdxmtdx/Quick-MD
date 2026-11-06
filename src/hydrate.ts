@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 mtdxmtdx and contributors.
-import {metrics} from './model';
+import {metrics,imageSource,imageType} from './model';
 import {cleanSvg,diagramAllowed} from './security';
 let katexPromise:Promise<typeof import('katex')>|undefined;
 let mermaidPromise:Promise<typeof import('mermaid')>|undefined;
 let serial=0,running=false;
 interface Task {node:HTMLElement;source:string;valid:()=>boolean;done:()=>void;dark:boolean}
 const queue:Task[]=[];const surfaces=new Set<()=>void>();
+// Supplied by main: whether this document may use the network, and how to read a local file.
+export const imageHost={remote:()=>false,read:(_path:string):Promise<ArrayBuffer>=>Promise.reject(new Error('仅桌面应用可读取本地图片'))};
+const waitingForNetwork=new Set<()=>void>();
+export function loadWaitingImages(){const todo=[...waitingForNetwork];waitingForNetwork.clear();for(const load of todo)load()}
 const formulaCache=new Map<string,string>();let cacheBytes=0;
 function cache(key:string,value:string){const bytes=(key.length+value.length)*2;if(bytes>1_048_576)return;while(formulaCache.size>=128||cacheBytes+bytes>1_048_576){const first=formulaCache.entries().next().value;if(!first)break;cacheBytes-=(first[0].length+first[1].length)*2;formulaCache.delete(first[0])}formulaCache.set(key,value);cacheBytes+=bytes}
 function failed(node:HTMLElement,error:unknown){node.classList.add('render-error');node.textContent=`渲染失败（源码保留）：${String(error).slice(0,300)}`}
@@ -22,16 +26,24 @@ async function pump(){if(running)return;let task:Task|undefined;while((task=queu
  }catch(e){if(job.valid())failed(job.node,e)}finally{job.done();running=false;for(const fill of surfaces)fill();void pump()}
 }
 export function hydrate(root:HTMLElement,isCurrent:()=>boolean,onLayout:()=>void=()=>{}):()=>void{
- let alive=true;const visible=new Set<HTMLElement>();const pending=new Set<HTMLElement>();const completed=new Set<HTMLElement>();const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+ let alive=true;const waiting=new Set<()=>void>();const visible=new Set<HTMLElement>();const pending=new Set<HTMLElement>();const completed=new Set<HTMLElement>();const dark=matchMedia('(prefers-color-scheme: dark)').matches;
  const valid=(node:HTMLElement)=>alive&&isCurrent()&&node.isConnected;
  const fill=()=>{for(const node of visible){if(queue.length>=8)break;if(!valid(node)||pending.has(node)||completed.has(node))continue;
   pending.add(node);queue.push({node,source:node.textContent??'',valid:()=>valid(node)&&visible.has(node),dark,done:()=>{pending.delete(node);if(valid(node)&&visible.has(node))completed.add(node);onLayout()}});metrics.diagramQueueMax=Math.max(metrics.diagramQueueMax,queue.length)}void pump()};
  const observer=new IntersectionObserver(entries=>{for(const entry of entries){const node=entry.target as HTMLElement;if(!entry.isIntersecting){visible.delete(node);continue}
-  if(node.dataset.math!==undefined){observer.unobserve(node);void formula(node)}else{visible.add(node)}}fill()},{rootMargin:'300px'});
+  if(node.dataset.math!==undefined){observer.unobserve(node);void formula(node)}else if(node.dataset.image!==undefined){observer.unobserve(node);void picture(node)}else{visible.add(node)}}fill()},{rootMargin:'300px'});
  async function formula(node:HTMLElement){try{const source=node.textContent??'',display=node.dataset.display==='true';if(source.length>50_000)throw new Error('公式超过长度边界');const key=`0.16|${display}|${source}`;let html=formulaCache.get(key);if(!html){if(!katexPromise){metrics.katexLoaded++;katexPromise=Promise.all([import('katex'),import('katex/dist/katex.min.css')]).then(([k])=>k).catch(e=>{katexPromise=undefined;throw e})}const k=await katexPromise;if(!valid(node))return;html=k.default.renderToString(source,{displayMode:display,trust:false,maxExpand:1000,maxSize:20,throwOnError:true,strict:'warn',macros:{}});cache(key,html)}if(valid(node)){node.innerHTML=html;node.classList.add('rendered');onLayout()}}catch(e){if(valid(node))failed(node,e)}}
- for(const node of root.querySelectorAll<HTMLElement>('[data-math],[data-diagram]'))observer.observe(node);
- if(root.matches('[data-math],[data-diagram]'))observer.observe(root);
+ async function picture(node:HTMLElement){const alt=node.dataset.alt??'',source=imageSource(node.dataset.src??'');
+  const unavailable=(reason:string)=>{if(valid(node)){node.textContent=`[图片无法显示：${alt}]`;node.title=reason;node.classList.add('image-failed')}};
+  const show=(url:string,done=()=>{})=>{const img=new Image();img.alt=alt;img.title=node.dataset.title??'';img.decoding='async';img.referrerPolicy='no-referrer';img.onload=()=>{done();if(valid(node)){node.replaceChildren(img);node.classList.add('rendered');onLayout()}};img.onerror=()=>{done();unavailable('图片无法加载或已损坏')};img.src=url};
+  if(source.kind==='rejected')unavailable('不支持的图片地址');
+  else if(source.kind==='data')show(source.url);
+  else if(source.kind==='remote'){if(imageHost.remote())show(source.url);else{node.textContent=`[网络图片：${alt}]`;const load=()=>{waiting.delete(load);if(valid(node))void picture(node)};waiting.add(load);waitingForNetwork.add(load)}}
+  else try{const bytes=await imageHost.read(source.path);if(!valid(node))return;const url=URL.createObjectURL(new Blob([bytes],{type:imageType(source.path)}));show(url,()=>URL.revokeObjectURL(url))}catch(e){unavailable(String(e))}
+ }
+ for(const node of root.querySelectorAll<HTMLElement>('[data-math],[data-diagram],[data-image]'))observer.observe(node);
+ if(root.matches('[data-math],[data-diagram],[data-image]'))observer.observe(root);
  surfaces.add(fill);
- return ()=>{alive=false;observer.disconnect();surfaces.delete(fill);visible.clear();pending.clear();completed.clear();for(let i=queue.length-1;i>=0;i--)if(!queue[i].valid())queue.splice(i,1)};
+ return ()=>{alive=false;observer.disconnect();surfaces.delete(fill);for(const load of waiting)waitingForNetwork.delete(load);visible.clear();pending.clear();completed.clear();for(let i=queue.length-1;i>=0;i--)if(!queue[i].valid())queue.splice(i,1)};
 }
 export function rendererStats(){return {queued:queue.length,running:Number(running),surfaces:surfaces.size,formulaCacheEntries:formulaCache.size,formulaCacheBytes:cacheBytes}}

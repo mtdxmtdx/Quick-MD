@@ -7,7 +7,7 @@
 | `src/document-session.ts` | 唯一源文、不可变保存快照、revision、撤销判脏 |
 | `src/editor.ts` / `src/live-preview.ts` | 共享 CodeMirror、语法装饰、复杂 widget、composition 保护 |
 | `src/markdown.ts` / `src/render-client.ts` | Markdown/数学解析、完整身份校验、1 执行 + 1 最新等待任务 |
-| `src/hydrate.ts` / `src/security.ts` | 按视口加载 KaTeX/Mermaid、串行图表与 8 待处理、DOM 清洗 |
+| `src/hydrate.ts` / `src/security.ts` | 按视口加载 KaTeX/Mermaid/图片、串行图表与 8 待处理、DOM 清洗 |
 | `src/main.ts` | 三模式、文件保护、候选提交、焦点与 surface 生命周期 |
 | `src-tauri/src/document.rs` | UTF-8/BOM/换行、指纹、临时文件同步与替换 |
 | `src-tauri/src/main.rs` | 原生对话框、受限命令、短状态锁、导航保护 |
@@ -15,6 +15,8 @@
 普通文字保留真实文本节点；复杂范围才替换为 widget。源码是唯一数据，不从 HTML 反向构造 Markdown。编辑/源码复用一个编辑器和撤销历史。
 
 解析是有界的整篇 Worker 解析，不是增量解析。身份包含 docId、revision、requestId、surfaceEpoch、themeEpoch；废弃结果不回填。主题变化和离开模式会失效 surface。离开预览释放隐藏 DOM，返回时从解析缓存重建；没有 DOM 虚拟化。
+
+图片在解析结果里只是惰性占位，清洗策略仍禁止 `<img>`；`hydrate` 检查地址后才创建图片。本地文件经 `read_image` 读取，网络图片要等用户按文档开启。
 
 保存使用快照；写入期间继续输入不会被旧保存结果标成已保存。原生路径只来自选择器和启动参数。Rust I/O 放在 blocking 任务中，不持 Session 锁等待用户选择。
 

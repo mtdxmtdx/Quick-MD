@@ -3,7 +3,7 @@
 import {describe,it,expect} from 'vitest';
 import {Text} from '@codemirror/state';
 import {DocumentSession,confirmReplacement} from '../src/document-session';
-import {active,sameIdentity,lineStarts,metrics,countWords,type Identity} from '../src/model';
+import {active,sameIdentity,lineStarts,metrics,countWords,overRenderLimit,RENDER_LIMIT,imageSource,imageType,imageSlot,type Identity} from '../src/model';
 import {parseMarkdown} from '../src/markdown';
 import {RenderClient,type WorkerLike} from '../src/render-client';
 const id=(n=1):Identity=>({docId:'a',revision:n,requestId:n,surfaceEpoch:1,themeEpoch:1});
@@ -24,8 +24,21 @@ describe('ranges and identities',()=>{
  it('UTF16 offsets include surrogate pairs',()=>expect(lineStarts('😀\n中\n')).toEqual([0,3,5]));
  it.each(['docId','revision','requestId','surfaceEpoch','themeEpoch'] as const)('rejects changed %s',key=>{const other={...id(),[key]:key==='docId'?'b':2};expect(sameIdentity(id(),other)).toBe(false)});
 });
+describe('image addresses',()=>{
+ it('sorts embedded, network and local images',()=>{expect(imageSource('data:image/png;base64,AAAA').kind).toBe('data');expect(imageSource('data:image/svg+xml,%3Csvg/%3E').kind).toBe('data');expect(imageSource('https://example.com/a.png').kind).toBe('remote');expect(imageSource('HTTP://example.com/a.png').kind).toBe('remote');expect(imageSource('./a b.png')).toEqual({kind:'local',path:'./a b.png'});expect(imageSource('../assets/a.png')).toEqual({kind:'local',path:'../assets/a.png'})});
+ it('decodes local paths the Markdown parser encoded',()=>{expect(imageSource('./%E5%9B%BE%201.png?v=2#x')).toEqual({kind:'local',path:'./图 1.png'});expect(imageSource('D:%5Cpics%5Ca.png')).toEqual({kind:'local',path:'D:\\pics\\a.png'});expect(imageSource('file:///D:/pics/a.png')).toEqual({kind:'local',path:'D:/pics/a.png'});expect(imageSource('<a b.png>')).toEqual({kind:'local',path:'a b.png'});expect(imageSource('100%.png')).toEqual({kind:'local',path:'100%.png'})});
+ it.each(['\\\\server\\share\\a.png','//server/share/a.png','%5C%5Cserver%5Cshare%5Ca.png','file://server/share/a.png','javascript:alert(1)','ftp://example.com/a.png','data:text/html,x','data:image/x-unknown;base64,AA',''])('rejects %s',src=>expect(imageSource(src).kind).toBe('rejected'));
+ it('knows image types by extension',()=>{expect(imageType('a.PNG')).toBe('image/png');expect(imageType('b.svg')).toBe('image/svg+xml');expect(imageType('c.txt')).toBe('')});
+ it('slot attributes cannot break out of their quotes',()=>{const html=imageSlot('a"><img src=x onerror=y>','<b>');expect(html).not.toContain('<img');expect(html).not.toContain('<b>')});
+});
+describe('render limit',()=>{
+ const picture=`![图](data:image/png;base64,${'A'.repeat(RENDER_LIMIT)})`;
+ it('counts text but not embedded image data',()=>{expect(overRenderLimit('x'.repeat(RENDER_LIMIT))).toBe(false);expect(overRenderLimit('x'.repeat(RENDER_LIMIT+1))).toBe(true);expect(overRenderLimit(picture)).toBe(false);expect(overRenderLimit(Text.of(['intro',picture,'end']))).toBe(false);expect(overRenderLimit(picture+'x'.repeat(RENDER_LIMIT))).toBe(true);expect(overRenderLimit(Text.of([picture,'x'.repeat(RENDER_LIMIT)]))).toBe(true)});
+ it('does not exempt text that only looks like an image address',()=>{expect(overRenderLimit('data:image/png;base64,'+'!'.repeat(RENDER_LIMIT))).toBe(true);expect(overRenderLimit('data:text/plain;base64,'+'A'.repeat(RENDER_LIMIT))).toBe(true)});
+});
 describe('word count',()=>{
  it('counts CJK characters singly and other scripts by word',()=>expect(countWords(['# 你好 world','abc中文 x2, **bold**','','かなカナ 한글'])).toBe(2+1+1+2+1+1+4+2));
+ it('ignores embedded image data',()=>expect(countWords(['前 ![图](data:image/png;base64,iVBOR/w0+KGgo=) 后'])).toBe(3));
  it('reads a CodeMirror document line by line',()=>{const s=new DocumentSession();s.attach(Text.of(['one two','三']));expect(countWords(s.lines())).toBe(3)});
 });
 describe('Markdown and math grammar',()=>{
@@ -36,6 +49,8 @@ describe('Markdown and math grammar',()=>{
  it('unclosed inline math remains text',()=>expect(parseMarkdown('text $oops').complex).toEqual([]));
  it('unclosed block remains literal source',()=>{const p=parseMarkdown('$$\nx+1\n\nordinary');expect(p.complex).toEqual([]);expect(p.blocks[0].html).toContain('ordinary')});
  it('references have full document context',()=>{const p=parseMarkdown('[a][ref]\n\n[ref]: https://example.com');expect(p.blocks[0].html).toContain('href="https://example.com"')});
+ it('images become inert slots and count network ones',()=>{const p=parseMarkdown('![本地](./a.png "说明") ![网](https://example.com/a.png)\n\n![嵌入](data:image/png;base64,AAAA) ![也网](http://example.com/b.png)');const html=p.blocks.map(b=>b.html).join('');expect(p.remoteImages).toBe(2);expect(html).not.toContain('<img');expect(html.match(/data-image=""/g)).toHaveLength(4);expect(html).toContain('data-src="./a.png"');expect(html).toContain('data-title="说明"');expect(html).toContain('data-src="data:image/png;base64,AAAA"')});
+ it('accepts file addresses and extra embedded types as images only',()=>{expect(parseMarkdown('![a](file:///D:/a.png) ![b](data:image/svg+xml,x)').blocks[0].html.match(/data-image=""/g)).toHaveLength(2);expect(parseMarkdown('![a](javascript:alert(1))').blocks[0].html).not.toContain('data-image')});
  it('raw HTML cannot become executable markup',()=>{const html=parseMarkdown('<script>alert(1)</script>\n<img src=x onerror=x>').blocks.map(b=>b.html).join('');expect(html).not.toContain('<script>');expect(html).not.toContain('<img ')});
  it('fenced blank lines are a single block',()=>expect(parseMarkdown('```text\na\n\nb\n```').blocks).toHaveLength(1));
  it('tables and Mermaid are complex but prose is not',()=>{const p=parseMarkdown('hello **world**\n\n| A | B |\n|---|---|\n|x|y|\n\n```Mermaid\nflowchart LR\nA-->B\n```');expect(p.complex.map(c=>c.kind)).toEqual(['table','diagram'])});

@@ -36,6 +36,12 @@ async fn prepare_open(window:WebviewWindow,state:State<'_,Store>,doc_id:String)-
 fn prepare_new(window:WebviewWindow,state:State<'_,Store>,doc_id:String)->Result<Payload,String>{origin(&window)?;let mut s=state.session.lock().map_err(|e|e.to_string())?;check(&s,&doc_id)?;let doc=document::blank();let payload=doc.payload.clone();s.candidate=Some(doc);Ok(payload)}
 #[tauri::command]
 fn commit_document(window:WebviewWindow,state:State<'_,Store>,doc_id:String,candidate_id:String)->Result<(),String>{origin(&window)?;let _op=state.operation.try_lock().map_err(|_|"文件操作正在进行")?;let mut s=state.session.lock().map_err(|e|e.to_string())?;check(&s,&doc_id)?;if s.candidate.as_ref().map(|d|d.payload.doc_id.as_str())!=Some(candidate_id.as_str()){return Err("候选文档已过期".into())}s.current=s.candidate.take().unwrap();Ok(())}
+#[tauri::command]
+async fn read_image(window:WebviewWindow,state:State<'_,Store>,doc_id:String,path:String)->Result<tauri::ipc::Response,String>{
+ origin(&window)?;let store=state.inner().clone();blocking(move||{
+ let base={let s=store.session.lock().map_err(|e|e.to_string())?;check(&s,&doc_id)?;s.current.disk.as_ref().and_then(|d|d.path.parent().map(|p|p.to_path_buf()))};
+ document::read_image(&path,base.as_deref()).map(tauri::ipc::Response::new)}).await
+}
 #[derive(serde::Serialize)] #[serde(rename_all="camelCase")] struct Saved {doc_id:String,revision:u64,name:String}
 #[tauri::command]
 async fn save_document(window:WebviewWindow,state:State<'_,Store>,doc_id:String,revision:u64,text:String,save_as:bool,normalize_mixed:bool)->Result<Option<Saved>,String>{
@@ -63,5 +69,5 @@ fn main(){
  tauri::WebviewWindowBuilder::new(app,"main",tauri::WebviewUrl::App("index.html".into())).title("Quick MD").inner_size(1050.,780.).min_inner_size(580.,400.).decorations(false).shadow(true)
  .on_navigation(|url|url.scheme()=="tauri"||(url.scheme()=="http"&&url.host_str()==Some("tauri.localhost"))||(cfg!(debug_assertions)&&url.host_str()==Some("127.0.0.1")&&url.port()==Some(1420)))
  .on_new_window(|_,_|tauri::webview::NewWindowResponse::Deny).build()?;Ok(())
- }).invoke_handler(tauri::generate_handler![startup_document,prepare_open,prepare_new,commit_document,save_document]).run(tauri::generate_context!()).expect("启动 Quick MD");
+ }).invoke_handler(tauri::generate_handler![startup_document,prepare_open,prepare_new,commit_document,save_document,read_image]).run(tauri::generate_context!()).expect("启动 Quick MD");
 }

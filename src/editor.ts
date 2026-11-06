@@ -7,7 +7,7 @@ import {markdown,markdownLanguage} from '@codemirror/lang-markdown';
 import {syntaxHighlighting,defaultHighlightStyle,HighlightStyle} from '@codemirror/language';
 import {GFM} from '@lezer/markdown';
 import {liveField,setComplex,setComposing} from './live-preview';
-import {metrics,RENDER_LIMIT,type Mode,type Complex} from './model';
+import {metrics,overRenderLimit,type Mode,type Complex} from './model';
 const display=new Compartment(),wrap=new Compartment();
 // Use the same semantic tags in both themes without dark-on-dark default colors.
 const syntaxColors:Record<string,string>={'#404740':'--syntax-meta','#708':'--syntax-keyword','#219':'--syntax-value','#164':'--syntax-value','#a11':'--syntax-string','#e40':'--syntax-string','#00f':'--syntax-link','#30a':'--syntax-keyword','#085':'--syntax-value','#167':'--syntax-value','#256':'--syntax-value','#00c':'--syntax-link','#940':'--syntax-comment','#f00':'--syntax-error'};
@@ -16,8 +16,8 @@ export class Editor {
  view:EditorView;mode:Mode='source';composing=false;
  constructor(parent:HTMLElement,text:string,onChange:(doc:Text)=>void,onCompositionEnd:()=>void,onCursor:()=>void=()=>{}){
   metrics.editorCreated++;
-  this.view=new EditorView({parent,state:EditorState.create({doc:text,extensions:[history(),drawSelection(),highlightActiveLine(),EditorState.allowMultipleSelections.of(true),keymap.of([...defaultKeymap,...historyKeymap,indentWithTab]),markdown({base:markdownLanguage,extensions:[GFM]}),syntaxHighlighting(highlightStyle),display.of([]),wrap.of(text.length<=RENDER_LIMIT?EditorView.lineWrapping:[]),EditorState.transactionExtender.of(tr=>{
-   const before=tr.startState.doc.length<=RENDER_LIMIT,after=tr.newDoc.length<=RENDER_LIMIT;
+  this.view=new EditorView({parent,state:EditorState.create({doc:text,extensions:[history(),drawSelection(),highlightActiveLine(),EditorState.allowMultipleSelections.of(true),keymap.of([...defaultKeymap,...historyKeymap,indentWithTab]),markdown({base:markdownLanguage,extensions:[GFM]}),syntaxHighlighting(highlightStyle),display.of([]),wrap.of(overRenderLimit(text)?[]:EditorView.lineWrapping),EditorState.transactionExtender.of(tr=>{
+   const before=!overRenderLimit(tr.startState.doc),after=!overRenderLimit(tr.newDoc);
    // Reconfigure in the original transaction: no nested update or mode change.
    return before!==after?{effects:wrap.reconfigure(after?EditorView.lineWrapping:[])}:null;
   }),EditorView.scrollMargins.of(()=>({top:document.querySelector('header')?.offsetHeight??0})),EditorView.updateListener.of(u=>{if(u.docChanged)onChange(u.state.doc);if(u.docChanged||u.selectionSet)onCursor()}),EditorView.domEventHandlers({compositionstart:()=>{this.composing=true;this.view.dispatch({effects:setComposing.of(true)})},compositionend:()=>{setTimeout(()=>{this.composing=false;this.view.dispatch({effects:setComposing.of(false)});onCompositionEnd()},0)}})]})});

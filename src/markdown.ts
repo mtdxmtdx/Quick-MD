@@ -3,7 +3,7 @@
 import MarkdownIt from 'markdown-it';
 import {tex} from '@mdit/plugin-tex';
 import type Token from 'markdown-it/lib/token.mjs';
-import {lineStarts,type Parsed,type Complex} from './model';
+import {lineStarts,imageSlot,imageSource,type Parsed,type Complex} from './model';
 const md=new MarkdownIt({html:false,linkify:false,typographer:false});
 const escape=md.utils.escapeHtml;
 export function mathPlaceholder(s:string,display:boolean){return `<${display?'div':'span'} class="math" data-math="" data-display="${display}">${escape(s)}</${display?'div':'span'}>`}
@@ -14,9 +14,12 @@ for(const rule of (md.inline.ruler as unknown as {__rules__:Array<{name:string;f
 }
 const fence=md.renderer.rules.fence!;
 md.renderer.rules.fence=(tokens,index,options,env,self)=>{const t=tokens[index];return t.info.trim().toLowerCase()==='mermaid'?`<div class="diagram" data-diagram=""><pre>${escape(t.content)}</pre></div>`:fence(tokens,index,options,env,self)};
-md.renderer.rules.image=(tokens,index)=>`<span class="blocked-image">[图片：${escape(tokens[index].content)}]</span>`;
+// file: and the extra data: image types are only ever read through imageSource.
+const validLink=md.validateLink;
+md.validateLink=url=>validLink(url)||/^file:/i.test(url.trim())||/^data:image\/(?:avif|bmp|svg\+xml)[;,]/i.test(url.trim());
+md.renderer.rules.image=(tokens,index,_options,env)=>{const t=tokens[index],src=t.attrGet('src')??'';if(imageSource(src).kind==='remote')env.remoteImages++;return imageSlot(src,t.content,t.attrGet('title')??'')};
 export function parseMarkdown(text:string):Parsed {
- const env={};const tokens=md.parse(text,env);const starts=lineStarts(text);const end=(line:number)=>starts[line]??text.length;
+ const env={remoteImages:0};const tokens=md.parse(text,env);const starts=lineStarts(text);const end=(line:number)=>starts[line]??text.length;
  // The TeX plugin accepts an unclosed dollar block up to EOF. Keep that input
  // literal rather than presenting an apparently completed mathematical block.
  for(const t of tokens){if(t.type==='math_block'&&t.markup==='$$'&&t.map){const raw=text.slice(end(t.map[0]),end(t.map[1]));if(!raw.trimEnd().endsWith('$$')||raw.trim().length<4){t.type='code_block';t.tag='code';t.content=raw}}}
@@ -42,5 +45,5 @@ export function parseMarkdown(text:string):Parsed {
  complex.sort((a,b)=>a.from-b.from||b.to-a.to);
  // Nested special nodes inside whole-table replacements are covered by the table.
  const filtered:Complex[]=[];for(const c of complex){if(!filtered.some(p=>c.from>=p.from&&c.to<=p.to))filtered.push(c)}
- return {blocks,complex:filtered};
+ return {blocks,complex:filtered,remoteImages:env.remoteImages};
 }

@@ -11,7 +11,8 @@ Windows 本地 Markdown 阅读与编辑器。Tauri 2 / WebView2、TypeScript 和
 - **预览 / Preview**：只读、可选择复制；打开默认预览，新建默认编辑。
 - 常用 Markdown、四种 LaTeX 定界符、矩阵及多行公式；Mermaid 流程、时序、类、状态和 ER 图。
 - 原生打开/保存/另存为、启动参数打开、未保存保护、外部修改检测、UTF-8/BOM 与换行保留。
-- 复杂引擎按需加载，解析和图表队列有界；原始 HTML 不执行，图片为占位，外链不导航。
+- 图片：显示内嵌（`data:image`）和本地图片（相对路径、本机绝对路径）；网络图片默认不加载，可按文档手动开启。
+- 复杂引擎按需加载，解析和图表队列有界；原始 HTML 不执行，外链不导航。
 
 示例：[数学与 Mermaid](examples/math-and-mermaid.md)。
 
@@ -67,7 +68,8 @@ UI 测试使用已安装的 Edge；原生检查启动真实 EXE，只写测试 f
 - KaTeX 不是完整 LaTeX/TikZ；Mermaid 配置和 click 指令拒绝，文本上限 50,000，边上限 500，不承诺硬 CPU 中止。
 - 外部修改预检不是跨进程原子 CAS；不承诺全部 NTFS 元数据保留。
 - Win10/ARM64/旧 WebView2、完整 IME/复杂滚动矩阵、冷启动和长期泄漏仍待验证。
-- 图片、全文查找、单实例、草稿、文件关联安装器和 DOM 虚拟化尚未实现。
+- 本地图片限常见图片格式、单张 32 MiB，拒绝网络共享路径；内嵌图片的 base64 数据不计入渲染阈值，但仍受 20 MiB 文件上限约束。
+- 全文查找、单实例、草稿、文件关联安装器和 DOM 虚拟化尚未实现。
 
 详见 [验证报告](docs/VALIDATION_REPORT.md)、[历史性能样本](docs/PERFORMANCE_REPORT.md) 和 [实现说明](docs/IMPLEMENTATION_STATUS.md)。历史性能结果不自动适用于每次重编译产物。
 

@@ -6,6 +6,8 @@ use std::{fs::{self, File}, io::{Read, Write}, path::{Path, PathBuf}};
 use tempfile::NamedTempFile;
 
 pub const LIMIT: usize = 20 * 1024 * 1024;
+pub const IMAGE_LIMIT: u64 = 32 * 1024 * 1024;
+const IMAGE_EXTENSIONS: [&str; 9] = ["png","jpg","jpeg","gif","webp","avif","bmp","svg","ico"];
 #[derive(Clone, Debug)]
 pub struct Disk { pub path: PathBuf, pub hash: String, pub bom: bool, pub eol: String, pub mixed: bool }
 #[derive(Clone, Serialize, Debug)]
@@ -32,6 +34,26 @@ pub fn decode(data: &[u8]) -> Result<(String, bool, String, bool), String> {
     let mixed = [crlf,cr,lf].iter().filter(|&&n| n>0).count()>1;
     let eol = if crlf>0 {"crlf"} else if cr>0 {"cr"} else {"lf"};
     Ok((s.replace("\r\n","\n").replace('\r',"\n"),bom,eol.into(),mixed))
+}
+// Network shares are refused before touching the path: opening one can send Windows credentials to its host.
+pub fn image_path(src:&str,base:Option<&Path>)->Result<PathBuf,String> {
+    if src.replace('/',"\\").starts_with("\\\\") {return Err("不读取网络共享路径的图片".into())}
+    let path=Path::new(src);
+    let full=if path.is_absolute() {path.to_path_buf()} else if let Some(base)=base {base.join(path)} else {return Err("文档尚未保存，无法解析相对路径".into())};
+    let ext=full.extension().and_then(|s|s.to_str()).unwrap_or("").to_ascii_lowercase();
+    if !IMAGE_EXTENSIONS.contains(&ext.as_str()) {return Err("不是受支持的图片格式".into())}
+    let real=fs::canonicalize(&full).map_err(|e|format!("无法读取图片：{e}"))?;
+    if real.to_string_lossy().starts_with(r"\\?\UNC\") {return Err("不读取网络共享路径的图片".into())}
+    Ok(real)
+}
+pub fn read_image(src:&str,base:Option<&Path>)->Result<Vec<u8>,String> {
+    let mut f=File::open(image_path(src,base)?).map_err(|e|format!("无法读取图片：{e}"))?;
+    let m=f.metadata().map_err(|e|e.to_string())?;
+    if !m.is_file()||m.len()>IMAGE_LIMIT {return Err("图片超过 32 MiB 或不是普通文件".into())}
+    let mut data=Vec::new();
+    (&mut f).take(IMAGE_LIMIT+1).read_to_end(&mut data).map_err(|e|e.to_string())?;
+    if data.len() as u64>IMAGE_LIMIT {return Err("图片超过 32 MiB".into())}
+    Ok(data)
 }
 pub fn blank() -> Document {
     Document { payload:Payload {doc_id:uuid::Uuid::new_v4().to_string(),text:String::new(),name:"未命名".into(),mixed:false,eol:"lf".into(),bom:false},disk:None }
@@ -80,5 +102,10 @@ fn write_staged(path:&Path,data:&[u8],expected:Option<&str>,hook:impl Fn(&str)->
     #[test] fn new_target_race_does_not_clobber(){let dir=tempfile::tempdir().unwrap();let p=dir.path().join("a.md");assert!(write_staged(&p,b"modified",None,|s|{if s=="synced"{fs::write(&p,b"external").unwrap()}Ok(())}).is_err());assert_eq!(fs::read(&p).unwrap(),b"external");}
     #[test] fn readonly_is_not_cleared(){let dir=tempfile::tempdir().unwrap();let p=dir.path().join("a.md");let h=write(&p,b"original",None).unwrap();let original=fs::metadata(&p).unwrap().permissions();let mut ro=original.clone();ro.set_readonly(true);fs::set_permissions(&p,ro).unwrap();assert!(write(&p,b"modified",Some(&h)).is_err());assert!(fs::metadata(&p).unwrap().permissions().readonly());assert_eq!(fs::read(&p).unwrap(),b"original");fs::set_permissions(&p,original).unwrap();}
     #[cfg(windows)] #[test] fn exclusive_windows_lock_preserves_original(){use std::os::windows::fs::OpenOptionsExt;let dir=tempfile::tempdir().unwrap();let p=dir.path().join("a.md");let h=write(&p,b"original",None).unwrap();let held=fs::OpenOptions::new().read(true).share_mode(0).open(&p).unwrap();assert!(write(&p,b"modified",Some(&h)).is_err());drop(held);assert_eq!(fs::read(&p).unwrap(),b"original");}
+    #[test] fn image_paths_stay_local(){let dir=tempfile::tempdir().unwrap();fs::create_dir(dir.path().join("sub")).unwrap();fs::write(dir.path().join("a.png"),b"png").unwrap();let sub=dir.path().join("sub");
+     assert_eq!(read_image("a.png",Some(dir.path())).unwrap(),b"png");assert_eq!(read_image("../a.png",Some(&sub)).unwrap(),b"png");assert_eq!(read_image(dir.path().join("a.png").to_str().unwrap(),None).unwrap(),b"png");
+     assert!(read_image("a.png",None).is_err());assert!(read_image("missing.png",Some(dir.path())).is_err());
+     for unc in [r"\\server\share\a.png","//server/share/a.png",r"\/server/a.png",r"\\?\UNC\server\share\a.png"]{assert!(read_image(unc,Some(dir.path())).unwrap_err().contains("网络共享"),"{unc}");}}
+    #[test] fn image_format_and_size_limits(){let dir=tempfile::tempdir().unwrap();fs::write(dir.path().join("secret.txt"),b"x").unwrap();assert!(read_image("secret.txt",Some(dir.path())).is_err());File::create(dir.path().join("big.png")).unwrap().set_len(IMAGE_LIMIT+1).unwrap();assert!(read_image("big.png",Some(dir.path())).is_err());fs::create_dir(dir.path().join("d.png")).unwrap();assert!(read_image("d.png",Some(dir.path())).is_err());}
     #[test] fn encoded_size_limit(){assert!(encode(&"\n".repeat(LIMIT/2+1),false,"crlf").is_err());}
 }
