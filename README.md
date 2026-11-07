@@ -12,7 +12,7 @@ Windows 本地 Markdown 阅读与编辑器。Tauri 2 / WebView2、TypeScript 和
 - 常用 Markdown、四种 LaTeX 定界符、矩阵及多行公式；Mermaid 流程、时序、类、状态和 ER 图。
 - 原生打开/保存/另存为、启动参数打开、未保存保护、外部修改检测、UTF-8/BOM 与换行保留。
 - 图片：显示内嵌（`data:image`）和本地图片（相对路径、本机绝对路径）；网络图片默认不加载，可按文档手动开启。
-- 复杂引擎按需加载，解析和图表队列有界；原始 HTML 不执行，外链不导航。
+- 复杂引擎按需加载，解析和图表队列有界；原始 HTML 经白名单清洗后显示（脚本不执行，样式只保留排版类属性），外链不导航。
 
 示例：[数学与 Mermaid](examples/math-and-mermaid.md)。
 
