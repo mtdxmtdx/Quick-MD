@@ -38,6 +38,7 @@ describe('render limit',()=>{
 });
 describe('word count',()=>{
  it('counts CJK characters singly and other scripts by word',()=>expect(countWords(['# 你好 world','abc中文 x2, **bold**','','かなカナ 한글'])).toBe(2+1+1+2+1+1+4+2));
+ it('ignores HTML tags and their attributes',()=>expect(countWords(['<div style="color: red; font-family: a > b">你好 <b>world</b></div>'])).toBe(3));
  it('ignores embedded image data',()=>expect(countWords(['前 ![图](data:image/png;base64,iVBOR/w0+KGgo=) 后'])).toBe(3));
  it('reads a CodeMirror document line by line',()=>{const s=new DocumentSession();s.attach(Text.of(['one two','三']));expect(countWords(s.lines())).toBe(3)});
 });
@@ -51,7 +52,10 @@ describe('Markdown and math grammar',()=>{
  it('references have full document context',()=>{const p=parseMarkdown('[a][ref]\n\n[ref]: https://example.com');expect(p.blocks[0].html).toContain('href="https://example.com"')});
  it('images become inert slots and count network ones',()=>{const p=parseMarkdown('![本地](./a.png "说明") ![网](https://example.com/a.png)\n\n![嵌入](data:image/png;base64,AAAA) ![也网](http://example.com/b.png)');const html=p.blocks.map(b=>b.html).join('');expect(p.remoteImages).toBe(2);expect(html).not.toContain('<img');expect(html.match(/data-image=""/g)).toHaveLength(4);expect(html).toContain('data-src="./a.png"');expect(html).toContain('data-title="说明"');expect(html).toContain('data-src="data:image/png;base64,AAAA"')});
  it('accepts file addresses and extra embedded types as images only',()=>{expect(parseMarkdown('![a](file:///D:/a.png) ![b](data:image/svg+xml,x)').blocks[0].html.match(/data-image=""/g)).toHaveLength(2);expect(parseMarkdown('![a](javascript:alert(1))').blocks[0].html).not.toContain('data-image')});
- it('raw HTML cannot become executable markup',()=>{const html=parseMarkdown('<script>alert(1)</script>\n<img src=x onerror=x>').blocks.map(b=>b.html).join('');expect(html).not.toContain('<script>');expect(html).not.toContain('<img ')});
+ it('raw images become inert slots with their attributes',()=>{const p=parseMarkdown('<img src="https://example.com/a.png?x=1&amp;y=2" alt="图" width=120 onerror=x>\n');const html=p.blocks[0].html;expect(html).not.toContain('<img');expect(html).not.toContain('onerror');expect(html).toContain('data-width="120"');expect(html).toContain('data-alt="图"');expect(p.remoteImages).toBe(1)});
+ it('joins an HTML block with its closing tag across blank lines',()=>{const s='<div style="color:red">\n\n**正文**\n\n<table><tr><td>1</td></tr></table>\n\n</div>\n\nafter\n';const p=parseMarkdown(s);expect(p.blocks).toHaveLength(2);expect(p.blocks[0].html).toContain('<strong>正文</strong>');expect(p.blocks[0].html).toContain('</div>');expect(p.blocks[1].html).toContain('after');expect(p.complex).toHaveLength(1);expect(p.complex[0].kind).toBe('html');expect(s.slice(p.complex[0].from,p.complex[0].to)).toBe(s.slice(0,s.indexOf('\n\nafter')))});
+ it('closes on an inline tag and leaves unclosed HTML alone',()=>{expect(parseMarkdown('<div>\n\ntext</div>\n\nafter').blocks).toHaveLength(2);expect(parseMarkdown('<div>\n\none\n\ntwo').blocks).toHaveLength(3)});
+ it('does not treat fenced tags as HTML and hides comments from widgets',()=>{const p=parseMarkdown('<div>\n\n```html\n</div>\n```\n\n</div>\n\n<!-- note -->\n');expect(p.blocks).toHaveLength(2);expect(p.complex).toHaveLength(1)});
  it('fenced blank lines are a single block',()=>expect(parseMarkdown('```text\na\n\nb\n```').blocks).toHaveLength(1));
  it('tables and Mermaid are complex but prose is not',()=>{const p=parseMarkdown('hello **world**\n\n| A | B |\n|---|---|\n|x|y|\n\n```Mermaid\nflowchart LR\nA-->B\n```');expect(p.complex.map(c=>c.kind)).toEqual(['table','diagram'])});
  it('unicode math spans slice the exact source',()=>{const s='你好😀 $x+1$';const p=parseMarkdown(s);expect(s.slice(p.complex[0].from,p.complex[0].to)).toBe('$x+1$')});

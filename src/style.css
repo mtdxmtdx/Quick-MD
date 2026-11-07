@@ -156,7 +156,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:16px;pa
 .live-fence{background:var(--code);font-family:var(--font-mono)}
 .live-widget{font-family:var(--font-body);line-height:1.88}
 .live-widget:focus-visible{outline:2px solid var(--accent)}
-div.live-widget{margin:6px 24px;overflow:auto}
+div.live-widget{margin:6px 24px;overflow:auto;white-space:normal}
 .live-widget table{width:100%}
 
 dialog{border:0;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(24px) saturate(1.5);color:inherit;border-radius:18px;max-width:450px;padding:28px;
