@@ -36,6 +36,8 @@ function htmlClose(tokens:Token[],start:number){
   if(depth<=0){let end=k+1;while(end<tokens.length&&!(tokens[end].map&&tokens[end].level===0))end++;return {end,line}}
  }
 }
+// Table cells in edit mode are rendered one at a time on the main thread.
+export function renderInline(text:string):string{return md.renderInline(text,{remoteImages:0})}
 export function parseMarkdown(text:string):Parsed {
  const env={remoteImages:0};const tokens=md.parse(text,env);const starts=lineStarts(text);const end=(line:number)=>starts[line]??text.length;
  // The TeX plugin accepts an unclosed dollar block up to EOF. Keep that input

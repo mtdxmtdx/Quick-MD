@@ -43,6 +43,30 @@ export function imageType(path:string):string{return imageTypes[path.split('.').
 const attribute=(s:string)=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 // An inert slot: the sanitizer still forbids <img>, and hydrate fills this in after checking the address.
 export function imageSlot(src:string,alt:string,title='',width=''):string{return `<span class="image-slot" data-image="" data-src="${attribute(src)}" data-alt="${attribute(alt)}" data-title="${attribute(title)}" data-width="${attribute(width)}">[图片：${attribute(alt)}]</span>`}
+// A GFM table split into cells, with offsets relative to the table's first character.
+export interface TableCell {from:number;to:number;text:string}
+export interface Table {rows:Array<Array<TableCell|null>>;align:string[]}
+const blank=(c:string|undefined)=>c===' '||c==='\t';
+function tableRow(text:string,offset:number):TableCell[]{
+ const pipes:number[]=[];for(let i=0,escaped=false;i<text.length;i++){if(text[i]==='|'&&!escaped)pipes.push(i);escaped=text[i]==='\\'&&!escaped}
+ let first=0;while(first<text.length&&blank(text[first]))first++;let last=text.length-1;while(last>=0&&blank(text[last]))last--;
+ const edges=[...pipes];if(edges[0]!==first)edges.unshift(-1);if(edges.at(-1)!==last||edges.length<2)edges.push(text.length);
+ const cells:TableCell[]=[];
+ for(let i=0;i+1<edges.length;i++){const start=edges[i]+1,end=edges[i+1];let a=start,b=end;while(a<b&&blank(text[a]))a++;while(b>a&&blank(text[b-1]))b--;
+  // An empty cell is edited at the gap after its first space.
+  if(a===b)a=b=Math.min(start+(blank(text[start])?1:0),end);
+  cells.push({from:offset+a,to:offset+b,text:text.slice(a,b)})}
+ return cells;
+}
+export function parseTable(source:string):Table|null{
+ const lines:Array<{text:string;offset:number}>=[];let offset=0;for(const text of source.split('\n')){lines.push({text,offset});offset+=text.length+1}
+ if(lines.length<2)return null;
+ const header=tableRow(lines[0].text,lines[0].offset);if(!header.length)return null;
+ const align=tableRow(lines[1].text,0).map(c=>/^:-+:$/.test(c.text)?'center':/^-+:$/.test(c.text)?'right':/^:-+$/.test(c.text)?'left':'');
+ const rows:Table['rows']=[header];
+ for(const line of lines.slice(2)){const cells=tableRow(line.text,line.offset);rows.push(header.map((_,i)=>cells[i]??null))}
+ return {rows,align:header.map((_,i)=>align[i]??'')};
+}
 export const metrics={parseQueued:0,parseStarted:0,parseFinished:0,parseCommitted:0,serialized:0,queueMax:0,diagramQueueMax:0,diagramStarted:0,editorCreated:0,katexLoaded:0,mermaidLoaded:0};
 export const trace:Array<{event:string;at:number;identity?:Identity}>=[];
 export function record(event:string,identity?:Identity){trace.push({event,at:performance.now(),identity});if(trace.length>256)trace.shift()}

@@ -3,7 +3,7 @@
 import {describe,it,expect} from 'vitest';
 import {Text} from '@codemirror/state';
 import {DocumentSession,confirmReplacement} from '../src/document-session';
-import {active,sameIdentity,lineStarts,metrics,countWords,overRenderLimit,RENDER_LIMIT,imageSource,imageType,imageSlot,type Identity} from '../src/model';
+import {active,sameIdentity,lineStarts,metrics,countWords,overRenderLimit,RENDER_LIMIT,parseTable,imageSource,imageType,imageSlot,type Identity} from '../src/model';
 import {parseMarkdown} from '../src/markdown';
 import {RenderClient,type WorkerLike} from '../src/render-client';
 const id=(n=1):Identity=>({docId:'a',revision:n,requestId:n,surfaceEpoch:1,themeEpoch:1});
@@ -30,6 +30,12 @@ describe('image addresses',()=>{
  it.each(['\\\\server\\share\\a.png','//server/share/a.png','%5C%5Cserver%5Cshare%5Ca.png','file://server/share/a.png','javascript:alert(1)','ftp://example.com/a.png','data:text/html,x','data:image/x-unknown;base64,AA',''])('rejects %s',src=>expect(imageSource(src).kind).toBe('rejected'));
  it('knows image types by extension',()=>{expect(imageType('a.PNG')).toBe('image/png');expect(imageType('b.svg')).toBe('image/svg+xml');expect(imageType('c.txt')).toBe('')});
  it('slot attributes cannot break out of their quotes',()=>{const html=imageSlot('a"><img src=x onerror=y>','<b>');expect(html).not.toContain('<img');expect(html).not.toContain('<b>')});
+});
+describe('table cells',()=>{
+ const cells=(s:string)=>parseTable(s)!.rows.map(r=>r.map(c=>c&&s.slice(c.from,c.to)));
+ it('splits rows with or without outer pipes and keeps escaped pipes',()=>{const s='| A | B |\n|:--|--:|\n| 1 | x \\| y |\nc | d';expect(cells(s)).toEqual([['A','B'],['1','x \\| y'],['c','d']]);expect(parseTable(s)!.align).toEqual(['left','right'])});
+ it('places empty cells at an insertion point',()=>{const s='| A | B |\n|---|---|\n|  | b |\n||c|';const t=parseTable(s)!;expect(t.rows[1][0]).toEqual({from:s.indexOf('|  |')+2,to:s.indexOf('|  |')+2,text:''});expect(t.rows[2][0]!.text).toBe('');expect(t.rows[2][1]!.text).toBe('c')});
+ it('pads short rows and drops extra cells',()=>{const t=parseTable('| A | B | C |\n|---|:-:|---|\n| 1 |\n| 1 | 2 | 3 | 4 |')!;expect(t.rows[1].map(c=>c?.text??null)).toEqual(['1',null,null]);expect(t.rows[2].map(c=>c?.text)).toEqual(['1','2','3']);expect(t.align).toEqual(['','center',''])});
 });
 describe('render limit',()=>{
  const picture=`![图](data:image/png;base64,${'A'.repeat(RENDER_LIMIT)})`;
