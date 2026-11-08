@@ -3,7 +3,8 @@
 import {StateEffect,StateField,type EditorState,type Range} from '@codemirror/state';
 import {Decoration,EditorView,WidgetType,type DecorationSet} from '@codemirror/view';
 import {syntaxTree} from '@codemirror/language';
-import {active,imageSlot,overRenderLimit,type Complex} from './model';
+import {active,imageSlot,overRenderLimit,parseTable,type Complex} from './model';
+import {TableWidget} from './table-widget';
 import {cleanHtml} from './security';
 import {hydrate} from './hydrate';
 export const setComplex=StateEffect.define<Complex[]>();
@@ -30,13 +31,16 @@ interface LiveState {items:Complex[];decorations:DecorationSet;composing:boolean
 function build(state:EditorState,items:Complex[]):DecorationSet {
  if(overRenderLimit(state.doc))return Decoration.none;
  const ranges=state.selection.ranges;const decorations:Range<Decoration>[]=[];const replaced:Complex[]=[];
- for(const item of items){if(item.to<=state.doc.length&&item.to>item.from&&!active(item,ranges)){replaced.push(item);decorations.push(Decoration.replace({widget:new RenderWidget(item),block:item.block}).range(item.from,item.to))}}
+ // Top-level tables are edit-mode widgets built from the syntax tree, so they survive typing inside a cell.
+ const tree=syntaxTree(state),tables:Array<{from:number;to:number}>=[];for(let n=tree.topNode.firstChild;n;n=n.nextSibling)if(n.name==='Table')tables.push({from:n.from,to:n.to});
+ for(const item of items){if(item.kind==='table'||item.kind!=='html'&&tables.some(t=>item.from<t.to&&item.to>t.from))continue;if(item.to<=state.doc.length&&item.to>item.from&&!active(item,ranges)){replaced.push(item);decorations.push(Decoration.replace({widget:new RenderWidget(item),block:item.block}).range(item.from,item.to))}}
  const covered=(from:number,to:number)=>replaced.some(c=>from<c.to&&to>c.from);
  const hide=(from:number,to:number)=>{if(to>from&&!covered(from,to))decorations.push(Decoration.replace({}).range(from,to))};
  // Skip only nodes inside a widget; ancestors such as Document overlap every widget.
  const inside=(from:number,to:number)=>replaced.some(c=>from>=c.from&&to<=c.to);
- syntaxTree(state).iterate({enter(node){const {from,to,name}=node;if(inside(from,to))return false;
+ tree.iterate({enter(node){const {from,to,name}=node;if(inside(from,to))return false;
   const selected=active({from,to},ranges);
+  if(name==='Table'&&node.node.parent?.name==='Document'&&!selected){const source=state.doc.sliceString(from,to),table=parseTable(source);if(table){decorations.push(Decoration.replace({widget:new TableWidget(table,source),block:true}).range(from,to));return false}}
   if(name==='Image'){const url=node.node.getChild('URL'),marks=node.node.getChildren('LinkMark');
    if(url&&marks.length>1){const src=state.doc.sliceString(url.from,url.to);
     if(!selected){const title=node.node.getChild('LinkTitle');decorations.push(Decoration.replace({widget:new RenderWidget({from,to,kind:'image',block:false,html:imageSlot(src,state.doc.sliceString(marks[0].to,marks[1].from),title?state.doc.sliceString(title.from+1,title.to-1):'')})}).range(from,to));return false}
