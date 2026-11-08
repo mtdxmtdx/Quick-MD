@@ -9,7 +9,7 @@
  --font-body:"Segoe UI Variable Text","Segoe UI","Microsoft YaHei UI",sans-serif;
  --font-head:"Noto Serif SC","Source Han Serif SC","Source Han Serif CN","Segoe UI Variable Display","Microsoft YaHei UI",serif;
  --font-mono:"Cascadia Mono",Consolas,"Microsoft YaHei UI",monospace;
- --measure:38em;--header:56px;
+ --column:608px;--header:56px;
  --syntax-meta:#6c675e;--syntax-keyword:#2f4c7e;--syntax-value:#7d5a1e;--syntax-string:#8a3b2e;--syntax-link:#2f4c7e;--syntax-comment:#76705f;--syntax-error:#b3261e;
  font-family:var(--font-ui);color:var(--ink);background:var(--paper);font-synthesis:none;color-scheme:light dark;
 }
@@ -85,9 +85,9 @@ kbd{font:inherit;font-size:12px;color:var(--muted)}
 #win-close:active{background:#c42b1ccc;color:#fff}
 
 /* Page */
-main{min-width:0;min-height:0;position:relative}
+main{min-width:0;min-height:0;position:relative;overflow:clip}
 #editor,#preview{min-width:0;height:100%;overflow:auto}
-#preview{padding:calc(var(--header) + 40px) max(32px,calc((100% - var(--measure))/2)) 120px;font-family:var(--font-body);font-size:16px;line-height:1.88;overflow-wrap:break-word;color:var(--ink)}
+#preview{padding:calc(var(--header) + 40px) 24px 120px;font-family:var(--font-body);font-size:16px;line-height:1.88;overflow-wrap:break-word;color:var(--ink)}
 #preview:focus{outline:none}
 /* The header floats over the page, so scrollbars start below it instead of sliding under the window buttons */
 #preview::-webkit-scrollbar,.cm-scroller::-webkit-scrollbar{width:12px;height:12px}
@@ -96,6 +96,8 @@ main{min-width:0;min-height:0;position:relative}
 #preview::-webkit-scrollbar-thumb,.cm-scroller::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ink) 24%,transparent);background-clip:padding-box;border:3px solid transparent;border-radius:999px}
 #preview::-webkit-scrollbar-thumb:hover,.cm-scroller::-webkit-scrollbar-thumb:hover{background-color:color-mix(in srgb,var(--ink) 40%,transparent)}
 #preview>section{display:flow-root}
+/* One text column for every mode; its width is set from the window size by main.ts */
+#preview>*{max-width:var(--column);margin-inline:auto}
 #preview p{margin:0 0 1em}
 #preview h1,#preview h2,#preview h3,#preview h4,.empty h1{font-family:var(--font-head);font-weight:600;line-height:1.35;text-wrap:balance}
 #preview h1{font-size:1.95em;margin:0 0 .6em}
@@ -136,9 +138,8 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:16px;pa
 .cm-editor{height:100%;font-size:16px}
 .cm-editor.cm-focused{outline:none}
 .cm-scroller{font-family:var(--font-mono)!important;line-height:1.8!important;overflow:auto!important}
-.cm-content{padding:calc(var(--header) + 40px) 0 120px!important;max-width:860px;margin:0 auto!important;flex:1}
+.cm-content{padding:calc(var(--header) + 40px) 0 120px!important;max-width:calc(var(--column) + 48px);margin:0 auto!important;flex:1}
 #editor[data-mode=live] .cm-scroller{font-family:var(--font-body)!important;line-height:1.88!important}
-#editor[data-mode=live] .cm-content{max-width:calc(var(--measure) + 48px)}
 .cm-line{padding:0 24px!important}
 .cm-gutters{display:none}
 .cm-activeLine{background:color-mix(in srgb,var(--accent) 5%,transparent)!important}
@@ -168,6 +169,17 @@ dialog p{font-size:14px;line-height:1.7;color:var(--muted)}
 #confirm-actions button{background:var(--code)}
 #confirm-actions button:first-child{background:var(--accent);color:var(--paper)}
 @media(prefers-color-scheme:dark){.render-error{color:#ffb09a}}
+
+/* Column width handles: an invisible strip beside each edge of the text, showing a grip on hover */
+.width-handle{position:absolute;z-index:5;top:var(--header);bottom:0;width:20px;display:flex;align-items:center;justify-content:center;cursor:col-resize;touch-action:none;opacity:0;transition:opacity .15s}
+.width-handle:hover,.width-handle:focus-visible,.resizing-column .width-handle{opacity:1}
+.width-handle:focus-visible{outline:none}
+.width-handle span{width:4px;height:44px;border-radius:999px;background:color-mix(in srgb,var(--ink) 26%,transparent);transition:background .15s,height .15s}
+.width-handle:hover span,.width-handle:focus-visible span,.resizing-column .width-handle span{height:56px;background:var(--accent)}
+.width-handle::after{content:attr(data-label);position:absolute;top:50%;margin-top:38px;font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;opacity:0;transition:opacity .15s}
+.width-handle:hover::after,.width-handle:focus-visible::after,.resizing-column .width-handle::after{opacity:1}
+.resizing-column,.resizing-column *{cursor:col-resize!important;user-select:none!important}
+[hidden].width-handle{display:none}
 
 /* Keep content overflow in its own scroller, never in the window grid. */
 nav,.actions,.window-controls,.logo,#dirty{flex-shrink:0}

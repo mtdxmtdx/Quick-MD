@@ -55,6 +55,30 @@ modes.addEventListener('click',e=>{if(suppressClick){e.preventDefault();e.stopPr
 function identity():Identity{return {docId:session.docId,revision:session.revision,requestId,surfaceEpoch:epoch,themeEpoch}}
 function current(id:Identity){return sameIdentity(id,identity())}
 function afterComposition(fn:()=>void){if(editor?.composing)deferred.push(fn);else fn()}
+// The text column is a share of the visible width, so it follows window resizes. Dragging either handle
+// changes both sides at once and keeps the column centred; the share is remembered between sessions.
+const COLUMN_DEFAULT=.6,COLUMN_KEY='quickmd.columnRatio',handles=[...document.querySelectorAll<HTMLElement>('.width-handle')];
+let columnRatio=COLUMN_DEFAULT;
+try{const saved=Number(localStorage.getItem(COLUMN_KEY));if(saved>=.2&&saved<=1)columnRatio=saved}catch{/* storage unavailable */}
+function columnBox(){const box=mode==='preview'?preview:editor?.view.scrollDOM??preview;const max=Math.max(box.clientWidth-96,240);return {box,max,min:Math.min(max,440)}}
+function layoutColumn(){const {box,min,max}=columnBox(),width=Math.round(Math.min(max,Math.max(min,columnRatio*box.clientWidth)));
+ document.documentElement.style.setProperty('--column',`${width}px`);
+ const centre=box.getBoundingClientRect().left-$('main').getBoundingClientRect().left+box.clientWidth/2,label=`${Math.round(columnRatio*100)}%`;
+ // Shown only once placed: appearing from hidden runs no fade, so the handles never flash during load.
+ for(const h of handles){h.hidden=false;h.style.left=`${h.dataset.side==='left'?centre-width/2-36:centre+width/2+16}px`;h.dataset.label=label;h.setAttribute('aria-valuenow',String(Math.round(columnRatio*100)))}
+ editor?.view.requestMeasure();
+}
+function setColumn(ratio:number){const {box,min,max}=columnBox();columnRatio=Math.min(max,Math.max(min,ratio*box.clientWidth))/box.clientWidth;layoutColumn()}
+function saveColumn(){try{localStorage.setItem(COLUMN_KEY,String(columnRatio))}catch{/* storage unavailable */}}
+for(const h of handles){const side=h.dataset.side==='left'?-1:1;
+ h.addEventListener('pointerdown',e=>{if(e.button!==0)return;e.preventDefault();h.setPointerCapture(e.pointerId);const start=e.clientX,{box}=columnBox(),width=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--column'));document.body.classList.add('resizing-column');
+  const move=(ev:PointerEvent)=>setColumn((width+2*side*(ev.clientX-start))/box.clientWidth);
+  const end=()=>{h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',end);h.removeEventListener('pointercancel',end);document.body.classList.remove('resizing-column');saveColumn()};
+  h.addEventListener('pointermove',move);h.addEventListener('pointerup',end);h.addEventListener('pointercancel',end)});
+ h.addEventListener('dblclick',()=>{setColumn(COLUMN_DEFAULT);saveColumn()});
+ h.addEventListener('keydown',e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();setColumn(columnRatio+((e.key==='ArrowRight')===(side>0)?.02:-.02));saveColumn()});
+}
+const columnObserver=new ResizeObserver(()=>layoutColumn());columnObserver.observe($('main'));columnObserver.observe(preview);
 function compositionEnded(){const todo=deferred.splice(0);for(const fn of todo)fn();schedule()}
 function invalidate(){epoch++;clearTimeout(timer);client?.cancel();disposeHydration();disposeHydration=()=>{}}
 function previewAnchor(){const nodes=[...preview.querySelectorAll<HTMLElement>('[data-from]')];const top=viewTop();const first=nodes.find(n=>n.getBoundingClientRect().bottom>=top);return first?{pos:Number(first.dataset.from),offset:first.getBoundingClientRect().top-top}:anchor}
@@ -80,11 +104,12 @@ async function changeMode(next:Mode,force=false){
  // Preview is rebuilt from the cached parse on return; retaining its hidden DOM
  // only inflates memory and first-editor style/layout work for large documents.
  if(mode!=='preview'){preview.replaceChildren();preview.hidden=true}
- for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));placeLens(true);editorHost.dataset.mode=mode;docInfo();
+ for(const button of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));placeLens(true);editorHost.dataset.mode=mode;docInfo();layoutColumn();
  if(mode!=='preview'){
-  if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(overRenderLimit(doc)&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();countLater();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded,docInfo);session.attach(editor.view.state.doc)}
+  if(!editor){const {Editor}=await import('./editor');if(ticket!==modeOperation)return;editor=new Editor(editorHost,session.text(),doc=>{session.edit(doc);const inputId=identity();record('inputReceived',inputId);parsed=undefined;if(overRenderLimit(doc)&&mode!=='source')queueMicrotask(()=>void changeMode('source'));else schedule();countLater();requestAnimationFrame(()=>record('inputPaint',inputId))},compositionEnded,docInfo);session.attach(editor.view.state.doc);columnObserver.observe(editor.view.scrollDOM)}
   editor.modeTo(mode);preview.hidden=true;editorHost.hidden=false;editor.view.requestMeasure();if(scrolls[mode]!==undefined)editor.view.scrollDOM.scrollTop=scrolls[mode]!;else if(anchor.pos>0)editor.restore(anchor.pos,anchor.offset);editor.view.focus();
  }else {editor?.modeTo('preview');editorHost.hidden=true;preview.hidden=false;preview.focus()}
+ layoutColumn();
  await parse();
 }
 async function adopt(payload:Payload,initialMode:Mode){invalidate();editor?.destroy();editor=undefined;editorHost.replaceChildren();parsed=undefined;for(const key of Object.keys(scrolls) as Mode[])delete scrolls[key];anchor={pos:0,offset:0};session.adopt(payload);words=undefined;countLater();networkImages=false;networkPrompt(0);status(payload.mixed?`检测到混合换行；实际保存前将确认统一为 ${payload.eol.toUpperCase()}。`:'');await changeMode(initialMode,true)}
