@@ -66,6 +66,15 @@ jobs:
           Start-Process -FilePath $setup -ArgumentList '/silent','/install' -Wait
           (Get-ItemProperty -Path "HKLM:\$key").pv
 
+      # Also pass the smoke test's debugging port through WebView2's per-EXE policy, which applies even where the
+      # WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS variable is not honoured. CI machine only; nothing in the app changes.
+      - name: Allow WebView2 remote debugging for the smoke test
+        run: |
+          $k='HKCU:\SOFTWARE\Policies\Microsoft\Edge\WebView2\AdditionalBrowserArguments'
+          New-Item -Path $k -Force | Out-Null
+          New-ItemProperty -Path $k -Name 'quick-md.exe' -Value '--remote-debugging-port=9437' -PropertyType String -Force | Out-Null
+          Get-ItemProperty $k | Select-Object 'quick-md.exe'
+
       - name: Native smoke test
         run: node scripts/native-smoke.mjs
 
@@ -79,7 +88,8 @@ jobs:
           $p=Start-Process -FilePath 'src-tauri/target/release/quick-md.exe' -ArgumentList 'tests/fixtures/basic.md' -PassThru
           Start-Sleep -Seconds 20
           "quick-md exited: $($p.HasExited) code: $(if($p.HasExited){$p.ExitCode})"
-          Get-CimInstance Win32_Process | Where-Object Name -in 'quick-md.exe','msedgewebview2.exe' | ForEach-Object {"$($_.ProcessId) $($_.Name) session=$($_.SessionId) $($_.CommandLine)".Substring(0,[Math]::Min(400,"$($_.ProcessId) $($_.Name) session=$($_.SessionId) $($_.CommandLine)".Length))}
+          'browser process:';Get-CimInstance Win32_Process -Filter "Name='msedgewebview2.exe'" | Where-Object {$_.CommandLine -notmatch '--type='} | ForEach-Object {$_.CommandLine}
+          'policies:';foreach($k in 'HKLM:\SOFTWARE\Policies\Microsoft\Edge','HKLM:\SOFTWARE\Policies\Microsoft\Edge\WebView2','HKCU:\SOFTWARE\Policies\Microsoft\Edge','HKCU:\SOFTWARE\Policies\Microsoft\Edge\WebView2'){if(Test-Path $k){"[$k]";Get-ChildItem $k -Recurse -ErrorAction SilentlyContinue | ForEach-Object {"  [$($_.Name)]"};(Get-ItemProperty $k | Out-String -Width 300)}}
           'listening:';Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object LocalPort -in 9437,9440 | Format-Table -AutoSize | Out-String
           try{(Invoke-WebRequest -UseBasicParsing http://127.0.0.1:9440/json/version -TimeoutSec 5).Content}catch{"CDP: $_"}
           Get-ChildItem -Recurse -ErrorAction SilentlyContinue .cache/webview-diagnose | Select-Object -First 15 FullName | Format-Table -HideTableHeaders | Out-String
