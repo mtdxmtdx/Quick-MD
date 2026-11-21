@@ -1,0 +1,118 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (C) 2026 mtdxmtdx and contributors.
+# Build the portable Windows EXE and test it on real Windows: unit and UI tests, then the native smoke test
+# against the release EXE in WebView2. The packaged release folder is uploaded as an artifact.
+name: Windows build
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+concurrency:
+  group: windows-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      # Packages from a clean checkout, so it runs before anything writes test output.
+      - name: Build release EXE
+        run: ./scripts/package-release.ps1
+
+      - name: UI tests
+        run: npm run test:ui
+
+      # The release EXE needs the Evergreen WebView2 runtime; install it if the runner image lacks it.
+      - name: Ensure WebView2 runtime
+        run: |
+          $key='SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'
+          $version=foreach($hive in 'HKLM:','HKCU:'){(Get-ItemProperty -Path "$hive\$key" -ErrorAction SilentlyContinue).pv}
+          $version=$version | Where-Object {$_ -and $_ -ne '0.0.0.0'} | Select-Object -First 1
+          if($version){"WebView2 runtime $version";exit 0}
+          'WebView2 runtime missing; installing'
+          $setup=Join-Path $env:RUNNER_TEMP 'MicrosoftEdgeWebview2Setup.exe'
+          Invoke-WebRequest -Uri 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $setup
+          Start-Process -FilePath $setup -ArgumentList '/silent','/install' -Wait
+          (Get-ItemProperty -Path "HKLM:\$key").pv
+
+      # The runner is elevated, and since WebView2 Runtime 150 an elevated host ignores the debugging port from
+      # WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS and from HKCU; only the machine-wide policy applies.
+      # See MicrosoftEdge/WebView2Feedback#5640. CI machine only; nothing in the app changes.
+      - name: Allow WebView2 remote debugging for the smoke test
+        run: |
+          $k='HKLM:\SOFTWARE\Policies\Microsoft\Edge\WebView2\AdditionalBrowserArguments'
+          New-Item -Path $k -Force | Out-Null
+          New-ItemProperty -Path $k -Name 'quick-md.exe' -Value '--remote-debugging-port=9437' -PropertyType String -Force | Out-Null
+          Get-ItemProperty $k | Select-Object 'quick-md.exe'
+
+      - name: Native smoke test
+        run: node scripts/native-smoke.mjs
+
+      - name: Diagnose native start
+        if: failure()
+        continue-on-error: true
+        run: |
+          $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS='--remote-debugging-port=9440'
+          $env:WEBVIEW2_USER_DATA_FOLDER=Join-Path $PWD '.cache/webview-diagnose'
+          "session: $([Diagnostics.Process]::GetCurrentProcess().SessionId) interactive: $([Environment]::UserInteractive) user: $env:USERNAME"
+          $p=Start-Process -FilePath 'src-tauri/target/release/quick-md.exe' -ArgumentList 'tests/fixtures/basic.md' -PassThru
+          Start-Sleep -Seconds 20
+          "quick-md exited: $($p.HasExited) code: $(if($p.HasExited){$p.ExitCode})"
+          'browser process:';Get-CimInstance Win32_Process -Filter "Name='msedgewebview2.exe'" | Where-Object {$_.CommandLine -notmatch '--type='} | ForEach-Object {$_.CommandLine}
+          'policies:';foreach($k in 'HKLM:\SOFTWARE\Policies\Microsoft\Edge','HKLM:\SOFTWARE\Policies\Microsoft\Edge\WebView2','HKCU:\SOFTWARE\Policies\Microsoft\Edge','HKCU:\SOFTWARE\Policies\Microsoft\Edge\WebView2'){if(Test-Path $k){"[$k]";Get-ChildItem $k -Recurse -ErrorAction SilentlyContinue | ForEach-Object {"  [$($_.Name)]"};(Get-ItemProperty $k | Out-String -Width 300)}}
+          'listening:';Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object LocalPort -in 9437,9440 | Format-Table -AutoSize | Out-String
+          try{(Invoke-WebRequest -UseBasicParsing http://127.0.0.1:9440/json/version -TimeoutSec 5).Content}catch{"CDP: $_"}
+          Get-ChildItem -Recurse -ErrorAction SilentlyContinue .cache/webview-diagnose | Select-Object -First 15 FullName | Format-Table -HideTableHeaders | Out-String
+          Add-Type -AssemblyName System.Windows.Forms,System.Drawing
+          $b=[Windows.Forms.Screen]::PrimaryScreen.Bounds;$bmp=New-Object Drawing.Bitmap $b.Width,$b.Height
+          [Drawing.Graphics]::FromImage($bmp).CopyFromScreen($b.Location,[Drawing.Point]::Empty,$b.Size);New-Item -ItemType Directory -Force docs/evidence | Out-Null;$bmp.Save("$PWD/docs/evidence/desktop.png")
+          Get-WinEvent -FilterHashtable @{LogName='Application';Level=2;StartTime=(Get-Date).AddMinutes(-15)} -MaxEvents 10 -ErrorAction SilentlyContinue | Format-List TimeCreated,ProviderName,Message | Out-String -Width 300
+          Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: quick-md-windows-${{ github.sha }}
+          path: release/
+          if-no-files-found: error
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-evidence-${{ github.sha }}
+          path: |
+            docs/evidence/
+            test-results/
+          if-no-files-found: ignore
