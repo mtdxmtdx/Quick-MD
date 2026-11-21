@@ -160,7 +160,15 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:16px;pa
 div.live-widget{margin:6px 24px;overflow:auto;white-space:normal}
 .live-widget table{width:100%}
 /* Edit-mode tables: cell text is edited in place; the lines and margin reveal the source */
-.live-table{padding:4px 0}
+.live-table{position:relative;padding:4px 0}
+.live-table .missing{cursor:cell}
+.table-add{position:absolute;z-index:2;width:18px;height:18px;padding:0;margin:-9px 0 0 -9px;border-radius:50%;display:grid;place-items:center;
+ font:600 14px/1 var(--font-body);color:var(--paper);background:var(--accent);box-shadow:0 0 0 2px var(--paper),0 2px 6px var(--glass-shadow);cursor:pointer}
+.table-add[hidden]{display:none}
+.table-add:hover{transform:scale(1.15)}
+.table-menu{position:fixed;right:auto;top:auto;min-width:200px;z-index:50}
+.table-menu button:disabled{opacity:.4;cursor:default;background:transparent}
+.menu-sep{height:1px;margin:4px 8px;background:var(--line)}
 .live-table th,.live-table td{cursor:text}
 .live-table.near-edge,.live-table.near-edge *{cursor:pointer}
 .live-table .missing{background:color-mix(in srgb,var(--ink) 4%,transparent)}

@@ -67,6 +67,23 @@ export function parseTable(source:string):Table|null{
  for(const line of lines.slice(2)){const cells=tableRow(line.text,line.offset);rows.push(header.map((_,i)=>cells[i]??null))}
  return {rows,align:header.map((_,i)=>align[i]??'')};
 }
+// Structural table edits on the source. Rows are numbered as in Table.rows (0 is the header); the delimiter
+// line is kept out of the numbering. Row edits touch one line; column edits rewrite every line.
+export type TableEdit={kind:'insertRow';at:number}|{kind:'deleteRow';row:number}|{kind:'insertColumn';at:number}|{kind:'deleteColumn';col:number}|{kind:'fillRow';row:number};
+const tableLine=(cells:string[])=>`| ${cells.join(' | ')} |`;
+export function editTable(source:string,edit:TableEdit):string|null{
+ const lines=source.split('\n');if(lines.length<2)return null;
+ const cells=lines.map(l=>tableRow(l,0).map(c=>c.text)),width=cells[0].length,rows=lines.length-1,line=(row:number)=>row?row+1:0;
+ const pad=(row:string[],n:number)=>row.length<n?[...row,...Array<string>(n-row.length).fill('')]:row;
+ switch(edit.kind){
+  case 'insertRow':if(edit.at<1||edit.at>rows)return null;lines.splice(edit.at+1,0,tableLine(Array<string>(width).fill('')));break;
+  case 'deleteRow':if(edit.row<1||edit.row>=rows)return null;lines.splice(line(edit.row),1);break;
+  case 'fillRow':if(edit.row<1||edit.row>=rows)return null;lines[line(edit.row)]=tableLine(pad(cells[line(edit.row)],width));break;
+  case 'insertColumn':if(edit.at<0||edit.at>width)return null;cells.forEach((row,i)=>{const r=pad(row,edit.at);r.splice(edit.at,0,i===1?'---':'');lines[i]=tableLine(r)});break;
+  case 'deleteColumn':if(edit.col<0||edit.col>=width||width<2)return null;cells.forEach((row,i)=>{lines[i]=tableLine(row.filter((_,c)=>c!==edit.col))});break;
+ }
+ return lines.join('\n');
+}
 export const metrics={parseQueued:0,parseStarted:0,parseFinished:0,parseCommitted:0,serialized:0,queueMax:0,diagramQueueMax:0,diagramStarted:0,editorCreated:0,katexLoaded:0,mermaidLoaded:0};
 export const trace:Array<{event:string;at:number;identity?:Identity}>=[];
 export function record(event:string,identity?:Identity){trace.push({event,at:performance.now(),identity});if(trace.length>256)trace.shift()}
