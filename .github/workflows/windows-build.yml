@@ -69,6 +69,26 @@ jobs:
       - name: Native smoke test
         run: node scripts/native-smoke.mjs
 
+      - name: Diagnose native start
+        if: failure()
+        continue-on-error: true
+        run: |
+          $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS='--remote-debugging-port=9440'
+          $env:WEBVIEW2_USER_DATA_FOLDER=Join-Path $PWD '.cache/webview-diagnose'
+          "session: $([Diagnostics.Process]::GetCurrentProcess().SessionId) interactive: $([Environment]::UserInteractive) user: $env:USERNAME"
+          $p=Start-Process -FilePath 'src-tauri/target/release/quick-md.exe' -ArgumentList 'tests/fixtures/basic.md' -PassThru
+          Start-Sleep -Seconds 20
+          "quick-md exited: $($p.HasExited) code: $(if($p.HasExited){$p.ExitCode})"
+          Get-CimInstance Win32_Process | Where-Object Name -in 'quick-md.exe','msedgewebview2.exe' | ForEach-Object {"$($_.ProcessId) $($_.Name) session=$($_.SessionId) $($_.CommandLine)".Substring(0,[Math]::Min(400,"$($_.ProcessId) $($_.Name) session=$($_.SessionId) $($_.CommandLine)".Length))}
+          'listening:';Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object LocalPort -in 9437,9440 | Format-Table -AutoSize | Out-String
+          try{(Invoke-WebRequest -UseBasicParsing http://127.0.0.1:9440/json/version -TimeoutSec 5).Content}catch{"CDP: $_"}
+          Get-ChildItem -Recurse -ErrorAction SilentlyContinue .cache/webview-diagnose | Select-Object -First 15 FullName | Format-Table -HideTableHeaders | Out-String
+          Add-Type -AssemblyName System.Windows.Forms,System.Drawing
+          $b=[Windows.Forms.Screen]::PrimaryScreen.Bounds;$bmp=New-Object Drawing.Bitmap $b.Width,$b.Height
+          [Drawing.Graphics]::FromImage($bmp).CopyFromScreen($b.Location,[Drawing.Point]::Empty,$b.Size);New-Item -ItemType Directory -Force docs/evidence | Out-Null;$bmp.Save("$PWD/docs/evidence/desktop.png")
+          Get-WinEvent -FilterHashtable @{LogName='Application';Level=2;StartTime=(Get-Date).AddMinutes(-15)} -MaxEvents 10 -ErrorAction SilentlyContinue | Format-List TimeCreated,ProviderName,Message | Out-String -Width 300
+          Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+
       - name: Upload release
         uses: actions/upload-artifact@v4
         with:
