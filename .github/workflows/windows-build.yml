@@ -1,0 +1,74 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Copyright (C) 2026 mtdxmtdx and contributors.
+# Build the portable Windows EXE and test it on real Windows: unit and UI tests, then the native smoke test
+# against the release EXE in WebView2. The packaged release folder is uploaded as an artifact.
+name: Windows build
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+concurrency:
+  group: windows-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      # Packages from a clean checkout, so it runs before anything writes test output.
+      - name: Build release EXE
+        run: ./scripts/package-release.ps1
+
+      - name: UI tests
+        run: npm run test:ui
+
+      - name: Native smoke test
+        run: node scripts/native-smoke.mjs
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: quick-md-windows-${{ github.sha }}
+          path: release/
+          if-no-files-found: error
+
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-evidence-${{ github.sha }}
+          path: |
+            docs/evidence/
+            test-results/
+          if-no-files-found: ignore
