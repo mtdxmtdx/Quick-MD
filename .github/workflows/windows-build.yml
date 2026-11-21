@@ -66,11 +66,12 @@ jobs:
           Start-Process -FilePath $setup -ArgumentList '/silent','/install' -Wait
           (Get-ItemProperty -Path "HKLM:\$key").pv
 
-      # Also pass the smoke test's debugging port through WebView2's per-EXE policy, which applies even where the
-      # WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS variable is not honoured. CI machine only; nothing in the app changes.
+      # The runner is elevated, and since WebView2 Runtime 150 an elevated host ignores the debugging port from
+      # WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS and from HKCU; only the machine-wide policy applies.
+      # See MicrosoftEdge/WebView2Feedback#5640. CI machine only; nothing in the app changes.
       - name: Allow WebView2 remote debugging for the smoke test
         run: |
-          $k='HKCU:\SOFTWARE\Policies\Microsoft\Edge\WebView2\AdditionalBrowserArguments'
+          $k='HKLM:\SOFTWARE\Policies\Microsoft\Edge\WebView2\AdditionalBrowserArguments'
           New-Item -Path $k -Force | Out-Null
           New-ItemProperty -Path $k -Name 'quick-md.exe' -Value '--remote-debugging-port=9437' -PropertyType String -Force | Out-Null
           Get-ItemProperty $k | Select-Object 'quick-md.exe'
